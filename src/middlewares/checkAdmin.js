@@ -27,6 +27,14 @@ const checkAdmin = (req, res, next) => {
             id:  decoded.id
             }
         }).then(stuff => {
+
+          if (!stuff) {
+            res.status(404).send({
+              message: "not found",
+          });
+          return;
+          }
+          console.log(stuff);
             if (stuff.role != "Admin") {
               res.status(401).send({
                 message: "Only admins",

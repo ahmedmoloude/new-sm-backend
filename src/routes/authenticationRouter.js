@@ -26,7 +26,7 @@ router.post(
 
 router.post("/loginclient", authenticationController.loginClient);
 
-router.post("/delivery_boy/login", authenticationController.loginDeliveryBoy);
+// router.post("/delivery_boy/login", authenticationController.loginDeliveryBoy);
 
 
 router.post("/BO/login", authenticationController.loginStuff);
