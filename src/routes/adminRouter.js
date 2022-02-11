@@ -9,5 +9,27 @@ router.post(
     adminController.createManager
 );
 
+router.post(
+    '/createDeliveryBoy',
+    [checkAdmin.checkAdmin],
+    adminController.createDeliveryBoy
+);
+
+
+router.get(
+    '/deliveryBoys',
+    [checkAdmin.checkAdmin],
+    adminController.getDeliveryBoys
+);
+
+
+
+router.get(
+    '/managers',
+    [checkAdmin.checkAdmin],
+    adminController.getManagers
+);
+
+
 
 module.exports = router;

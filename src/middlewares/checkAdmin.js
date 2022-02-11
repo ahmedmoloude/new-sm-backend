@@ -13,8 +13,9 @@ const checkAdmin = (req, res, next) => {
         message: "No token provided!"
       });
       return;
-
     }
+
+
     jwt.verify(token,secret, (err, decoded) => {
         if (err) {
            res.status(401).send({
@@ -29,20 +30,19 @@ const checkAdmin = (req, res, next) => {
         }).then(stuff => {
 
           if (!stuff) {
-            res.status(404).send({
-              message: "not found",
+            res.status(401).send({
+              message: "you are not a stuff",
           });
           return;
           }
-          console.log(stuff);
-            if (stuff.role != "Admin") {
-              res.status(401).send({
-                message: "Only admins",
-            });
-            return;
-            }
+          if (stuff.role != "Admin") {
+            res.status(401).send({
+              message: "Only admins",
+          });
+          return;
+          }
 
-            next();
+          next();
         });
       });
       

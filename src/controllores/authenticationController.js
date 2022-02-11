@@ -4,6 +4,7 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const Client = require('../models').Client;
 const Stuff = require('../models').Stuff;
+const DeliveryBoy = require('../models').DeliveryBoy;
 
 
 const secret = require('../config/jwtConfig');
@@ -78,10 +79,10 @@ const registerClientThirdParty = async (req , res) => {
 
 
 const loginClient = async (req, res) => {
-  const { password , user_name } = req.body;
+  const { password , phone_number } = req.body;
     Client.findOne({
       where: {
-        user_name: user_name
+        phone_number: phone_number
       }
     })
     .then(user => {
@@ -164,6 +165,53 @@ const loginStuff = async (req, res) => {
 };
 
 
+const loginDeliveryBoy = async (req, res) => {
+     console.log(req.body);
+        const { password , phone_number } = req.body;
+          
+      DeliveryBoy.findOne({
+        where: {
+          phone_number: phone_number
+        }
+      })
+      .then(deliveryBoy => {
+        
+        if (!deliveryBoy) {
+          return res.status(404).send({ message: "deliveryBoy Not found." });
+        }
+
+        const passwordIsValid = bcrypt.compareSync(
+          password,
+          deliveryBoy.hashed_password
+        );
+
+        if (!passwordIsValid) {
+          return res.status(401).send({
+            accessToken: null,
+            message: "Invalid Password!"
+          });
+        }
+
+        const token = jwt.sign({id: user.id},secret, {
+          expiresIn: '365d'});
+
+        return res.status(200).send({
+          id: deliveryBoy.id,
+          username: deliveryBoy.user_name,
+          email: deliveryBoy.email,
+          role: deliveryBoy.role,
+          accessToken: token
+        });
+
+      })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });
+}
+
+
+
+
 
 
 
@@ -171,5 +219,6 @@ module.exports = {
   registerClient,
   loginClient,
   registerClientThirdParty,
-  loginStuff
+  loginStuff,
+  loginDeliveryBoy
 };
