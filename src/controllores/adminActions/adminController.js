@@ -7,6 +7,50 @@ const Restaurant = require('../../models/index').Restaurant;
 
 
 
+const userBytoken = async (req,res) => {
+  let token = req.headers["x-access-token"];
+  
+  if (!token) {
+    return  res.status(403).send({
+      message: "No token provided!"
+    });
+  }
+
+
+
+  jwt.verify(token,secret, (err, decoded) => {
+    if (err) {
+       res.status(401).send({
+        message: "Unauthorized!"
+      });
+      return;
+    }
+    Stuff.findOne({
+        where: {
+        id:  decoded.id
+        }
+    }).then(stuff => {
+
+      if (!stuff) {
+       return res.status(401).send({
+          message: "user not found!",
+      });
+      }
+
+      return res.status(200).send({
+        id: stuff.id,
+        username: stuff.user_name,
+        email: stuff.email,
+        role: stuff.role,
+      });
+    }).catch(err => {
+      console.log("get user by token" , err);
+      res.status(500).send({ message: err.message });
+    });
+  });
+
+
+}
 // ************* manager crud ************* 
 const createManager = async(req,res) => {
    
@@ -283,5 +327,6 @@ module.exports = {
     getOneDeliveryBoy,
     deleteDeliveryBoy,
     deleteRestaurant,
-    createRestaurant
+    createRestaurant,
+    userBytoken
 }

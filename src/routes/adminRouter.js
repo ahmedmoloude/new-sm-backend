@@ -5,6 +5,13 @@ const  adminController = require("../controllores/adminActions/adminController")
 
 
 
+// ************* check token ************* 
+router.get(
+    '/user_by_token',
+    adminController.userBytoken
+);
+
+
 // ************* manager crud ************* 
 
 // []
