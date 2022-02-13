@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue : "Manager",
     },
     phone_number: DataTypes.INTEGER,
+    fcm_token: DataTypes.STRING,
     hashed_password: DataTypes.STRING(64)
   }, {
     sequelize,
