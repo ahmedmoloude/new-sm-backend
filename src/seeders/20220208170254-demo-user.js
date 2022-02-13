@@ -1,5 +1,5 @@
 'use strict';
-var bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -10,7 +10,8 @@ module.exports = {
           user_name: "admin",
           email: "admin@test.com",
           hashed_password : bcrypt.hashSync("123456", 8),
-          role: "Admin"
+          role: "Admin",
+          fcm_token : ""
           } 
        ], {});
     

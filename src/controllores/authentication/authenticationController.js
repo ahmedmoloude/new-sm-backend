@@ -1,13 +1,13 @@
 
 
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
-const Client = require('../models').Client;
-const Stuff = require('../models').Stuff;
-const DeliveryBoy = require('../models').DeliveryBoy;
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const Client = require('../../models/index').Client;
+const Stuff = require('../../models/index').Stuff;
+const DeliveryBoy = require('../../models/index').DeliveryBoy;
 
 
-const secret = require('../config/jwtConfig');
+const secret = require('../../config/jwtConfig');
 
 
 const registerClient = async (req , res) => {
@@ -20,7 +20,7 @@ const registerClient = async (req , res) => {
         hashed_password: bcrypt.hashSync(password, 8)
       })
         .then(client => {
-          var token = jwt.sign({ id: client.id }, secret, {
+          const token = jwt.sign({ id: client.id }, secret, {
              expiresIn: '365d'
           });    
           res.status(201).send({ client: client , token : token });
@@ -55,7 +55,7 @@ const registerClientThirdParty = async (req , res) => {
         hashed_password: bcrypt.hashSync(password, 8)
       })
         .then(client => {
-          var token = jwt.sign({ id: client.id }, secret, {
+          const token = jwt.sign({ id: client.id }, secret, {
            expiresIn: '365d'     
            });    
           res.status(201).send({ client: client , token : token });
@@ -91,7 +91,7 @@ const loginClient = async (req, res) => {
         return res.status(404).send({ message: "User Not found." });
       }
 
-      var passwordIsValid = bcrypt.compareSync(
+      const passwordIsValid = bcrypt.compareSync(
         password,
         user.hashed_password
       );
@@ -103,7 +103,7 @@ const loginClient = async (req, res) => {
         });
       }
 
-      var token = jwt.sign({ id: user.id }, secret, {
+      const token = jwt.sign({ id: user.id }, secret, {
         expiresIn: '365d'      });
 
       res.status(200).send({
@@ -135,7 +135,7 @@ const loginStuff = async (req, res) => {
 
 
 
-        var passwordIsValid = bcrypt.compareSync(
+        const passwordIsValid = bcrypt.compareSync(
           password,
           user.hashed_password
         );
@@ -147,7 +147,7 @@ const loginStuff = async (req, res) => {
           });
         }
 
-        var token = jwt.sign({id: user.id},secret, {
+        const token = jwt.sign({id: user.id},secret, {
           expiresIn: '365d'});
 
         res.status(200).send({

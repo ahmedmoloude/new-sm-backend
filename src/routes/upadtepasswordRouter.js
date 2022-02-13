@@ -1,7 +1,7 @@
 const express = require("express");
 const { checkAdmin } = require("../middlewares");
 const router = express.Router();
-const  updatePasswordController = require("../controllores/updatePasswordController")
+const  updatePasswordController = require("../controllores/upatePassword/updatePasswordController")
 
 
 

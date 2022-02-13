@@ -1,12 +1,10 @@
 
-
-
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
-const Client = require('../models').Client;
-const Stuff = require('../models').Stuff;
-const DeliveryBoy = require('../models').DeliveryBoy;
-const secret = require('../config/jwtConfig');
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const Client = require('../../models/index').Client;
+const Stuff = require('../../models/index').Stuff;
+const DeliveryBoy = require('../../models/index').DeliveryBoy;
+const secret = require('../../config/jwtConfig');
 
 
 const updatePasswordStuff = async (req,res) => {

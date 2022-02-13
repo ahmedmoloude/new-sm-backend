@@ -29,6 +29,20 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: 'Manager'
       },
+      fcm_token : {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      restaurant_id: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Restaurants',
+          key: 'id',
+          as: 'restaurant_id',
+        },
+      },
       hashed_password: {
         allowNull: false,
         type: Sequelize.STRING(64),

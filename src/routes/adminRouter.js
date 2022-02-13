@@ -1,13 +1,39 @@
 const express = require("express");
 const { checkAdmin } = require("../middlewares");
 const router = express.Router();
-const  adminController = require("../controllores/adminController")
+const  adminController = require("../controllores/adminActions/adminController")
+
+
+
+// ************* manager crud ************* 
+router.get(
+    '/managers',
+    [checkAdmin.checkAdmin],
+    adminController.getManagers
+);
+
+router.get(
+    '/manager',
+    [checkAdmin.checkAdmin],
+    adminController.getOneManager
+);
+
 
 router.post(
     '/createManager',
     [checkAdmin.checkAdmin],
     adminController.createManager
 );
+
+router.post(
+    '/deleteManager',
+    [checkAdmin.checkAdmin],
+    adminController.deleteManager
+);
+
+
+// ************* DeliveryBoy crud ************* 
+
 
 router.post(
     '/createDeliveryBoy',
@@ -22,13 +48,57 @@ router.get(
     adminController.getDeliveryBoys
 );
 
+router.get(
+    '/deliveryBoy',
+    [checkAdmin.checkAdmin],
+    adminController.getOneDeliveryBoy
+);
+
+router.post(
+    '/deleteDeliveryBoy',
+    [checkAdmin.checkAdmin],
+    adminController.deleteDeliveryBoy
+);
+
+
+
+
+// ************* Restaurant crud ************* 
 
 
 router.get(
-    '/managers',
+    '/restaurantManagers',
     [checkAdmin.checkAdmin],
-    adminController.getManagers
+    adminController.getRestaurantwithManagers
 );
+
+router.post(
+    '/createRestaurants',
+    [checkAdmin.checkAdmin],
+    adminController.createRestaurant
+);
+
+
+router.post(
+    '/deleteRestaurant',
+    [checkAdmin.checkAdmin],
+    adminController.deleteRestaurant
+);
+
+router.get(
+    '/restaurants',
+    [checkAdmin.checkAdmin],
+    adminController.getRestaurants
+);
+
+router.get(
+    '/restaurant',
+    [checkAdmin.checkAdmin],
+    adminController.getOneRestaurant
+);
+
+
+
 
 
 

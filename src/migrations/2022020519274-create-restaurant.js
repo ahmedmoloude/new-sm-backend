@@ -1,48 +1,32 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Clients', {
+    await queryInterface.createTable('Restaurants', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       phone_number: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: true
+        allowNull: false
       },
-      user_name: {
+      localisation: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      email: {
+      region: {
         type: Sequelize.STRING,
         allowNull: false,
-        validate: {
-          isEmail: {
-            msg: "Must be a valid email address",
-          }
-      }},
-      hashed_password: {
-        allowNull: false,
-        type: Sequelize.STRING(64),
       },
-      current_command: {
-        allowNull: true,
-        type: Sequelize.INTEGER,
-      },
-      client_is_active: {
+      statut: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,
-      },
-      external_auth_id: {
-        type: Sequelize.STRING,
-      },
-      fcm_token : {
-        allowNull: false,
-        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -55,6 +39,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Clients');
+    await queryInterface.dropTable('Restaurants');
   }
 };

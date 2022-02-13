@@ -37,13 +37,21 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER,
       },
+      fcm_token : {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
       statut: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
-      rating: {
+      rating : {
+        allowNull: false,
         type: Sequelize.INTEGER,
-        defaultValue: 0,
+        defaultValue : 0,
+        validate : {
+          max : 5
+        }
       },
       createdAt: {
         allowNull: false,

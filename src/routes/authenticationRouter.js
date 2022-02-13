@@ -5,7 +5,7 @@ const express = require("express");
 const { verfiySignUp } = require("../middlewares");
 const router = express.Router();
 
-const  authenticationController = require("../controllores/authenticationController")
+const  authenticationController = require("../controllores/authentication/authenticationController")
 
 router.post(
     '/registerClient',
