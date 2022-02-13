@@ -29,6 +29,6 @@ router.post("/loginclient", authenticationController.loginClient);
 router.post("/deliveryBoy/login", authenticationController.loginDeliveryBoy);
 
 
-router.post("/BO/login", authenticationController.loginStuff);
+router.post("/bo/login", authenticationController.loginStuff);
 
 module.exports = router;
