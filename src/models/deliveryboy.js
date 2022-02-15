@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     rating: DataTypes.INTEGER,
     hashed_password: DataTypes.STRING(64),
     adresse : DataTypes.STRING,
+    fcm_token : DataTypes.STRING,
     statut:  DataTypes.BOOLEAN
   }, {
     sequelize,

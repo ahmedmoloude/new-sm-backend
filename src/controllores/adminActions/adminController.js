@@ -4,6 +4,12 @@ const secret = require('../../config/jwtConfig');
 const bcrypt = require("bcryptjs");
 const DeliveryBoy = require('../../models/index').DeliveryBoy;
 const Restaurant = require('../../models/index').Restaurant;
+const Product = require('../../models/index').Product;
+const Category = require('../../models/index').Category;
+const Restaurant_inter_product = require('../../models/index').Restaurant_inter_product;
+
+
+
 
 
 
@@ -20,10 +26,10 @@ const userBytoken = async (req,res) => {
 
   jwt.verify(token,secret, (err, decoded) => {
     if (err) {
-       res.status(401).send({
+       return res.status(401).send({
         message: "Unauthorized!"
       });
-      return;
+      
     }
     Stuff.findOne({
         where: {
@@ -45,7 +51,7 @@ const userBytoken = async (req,res) => {
       });
     }).catch(err => {
       console.log("get user by token" , err);
-      res.status(500).send({ message: err.message });
+    return  res.status(500).send({ message: err.message });
     });
   });
 
@@ -79,15 +85,12 @@ const createManager = async(req,res) => {
               const token = jwt.sign({ id: stuff.id }, secret, {
                expiresIn: '365d'     
                });    
-              res.status(201).send({ stuff: stuff , token : token });
+            return res.status(201).send({ stuff: stuff , token : token });
             })
             .catch(err => {
               console.log("Manager creation" , err);
-              res.status(500).send({ message: err.message });
+             return  res.status(500).send({ message: err.message });
             });
-
-
-
     }).catch(err => {
       console.log("Manager creation" , err);
       res.status(500).send({ message: err.message });
@@ -100,10 +103,10 @@ const getManagers = async (req,res) => {
       role: "Manager"
       },
   }).then(managers => {
-    res.status(200).send(managers);
+  return   res.status(200).send(managers);
   }) .catch(err => {
     console.log("get Managers" , err);
-    res.status(500).send({ message: err.message });
+   return res.status(500).send({ message: err.message });
   });
 } 
 
@@ -116,10 +119,14 @@ const getOneManager = async (req,res) => {
       id: id
       },
   }).then(manager => {
-    res.status(200).send(manager);
+    if (manager) {
+     return res.status(200).send(manager);
+    } else {
+      return res.status(404).send({ msg: "No such manager "});
+    }
   }) .catch(err => {
     console.log("get one Manager" , err);
-    res.status(500).send({ message: err.message });
+   return res.status(500).send({ message: err.message });
   });
 } 
 
@@ -132,10 +139,14 @@ const deleteManager = async (req,res) => {
       id: id
       },
   }).then(response => {
-    res.status(204).send("delted ");
+    if (response) {
+      return  res.status(200).send({msg : "deleted"});
+    }
+    return  res.status(404).send({msg : "stuff not found"});
+
   }) .catch(err => {
     console.log("delet Manager" , err);
-    res.status(500).send({ message: err.message });
+    return res.status(500).send({ message: err.message });
   });
 } 
 
@@ -148,7 +159,7 @@ const deleteManager = async (req,res) => {
 const createDeliveryBoy = async (req,res) => {
     console.log(req.body);
    
-        const { email, password , user_name , phone_number , adresse} = req.body;
+        const { email, password , user_name , phone_number , adresse , fcm_token}  = req.body;
 
         DeliveryBoy.findOne({
             where: {
@@ -167,17 +178,18 @@ const createDeliveryBoy = async (req,res) => {
                 email: email,
                 phone_number: phone_number,
                 hashed_password: bcrypt.hashSync(password, 8),
-                adresse : adresse
+                adresse : adresse,
+                fcm_token : fcm_token
               })
                 .then(deliveryBoy => {
                   const token = jwt.sign({ id: deliveryBoy.id }, secret, {
                   expiresIn: '365d'     
                   });    
-                  res.status(201).send({ deliveryBoy: deliveryBoy , token : token });
+                 return  res.status(201).send({ deliveryBoy: deliveryBoy , token : token });
                 })
                 .catch(err => {
                   console.log("DeliveryBoy creation" , err);
-                  res.status(500).send({ message: err.message });
+                 return  res.status(500).send({ message: err.message });
                 });
         });
 } 
@@ -190,10 +202,10 @@ const getDeliveryBoys = async (req,res) => {
       DeliveryBoy.findAll({
         limit: count ?? 10
       }).then(deliveryBoys => {
-        res.status(200).send(deliveryBoys);
+       return res.status(200).send(deliveryBoys);
       }) .catch(err => {
         console.log("get DeliveryBoys" , err);
-        res.status(500).send({ message: err.message });
+    return    res.status(500).send({ message: err.message });
       });
 } 
 
@@ -205,10 +217,14 @@ const getOneDeliveryBoy = async (req,res) => {
         id: id
         },
     }).then(deliveryBoy => {
-      res.status(200).send(deliveryBoy);
+
+      if (deliveryBoy){
+        return  res.status(200).send(deliveryBoy);
+      }
+      return res.status(404).send({ msg : "deliverBoy not found" });
     }) .catch(err => {
       console.log("get DeliveryBoys" , err);
-      res.status(500).send({ message: err.message });
+      return res.status(500).send({ message: err.message });
     });
 } 
 
@@ -223,10 +239,13 @@ const deleteDeliveryBoy = async (req,res) => {
       id: id
       },
   }).then(repsonse => {
-    res.status(204).send("deleted");
+    if (repsonse) {
+      return  res.status(200).send({msg : "deleted"});
+    }
+    return  res.status(404).send({msg : "delivery boy not found"});
   }) .catch(err => {
     console.log("get DeliveryBoys" , err);
-    res.status(500).send({ message: err.message });
+   return  res.status(500).send({ message: err.message });
   });
 } 
 
@@ -235,6 +254,55 @@ const deleteDeliveryBoy = async (req,res) => {
 
 
 // ************* Restaurant crud ************* 
+
+const linkRestaurantWithManager = async (req,res) => {
+  const {  restaurant_id , manager_id } = req.body;
+
+  Stuff.findOne({
+    where: {
+    id:  manager_id
+    }
+  }).then(staff => {
+
+
+    if (!staff) {
+      return res.status(404).send({
+        message: "staff not found",
+         });
+    }
+
+
+    Restaurant.findOne({
+      where : {
+        id : restaurant_id
+      }
+    }).then(restaurant => {
+      if (!restaurant) {
+        return res.status(404).send({ msg : 'restaurant not found'});
+       } 
+
+       staff.restaurant_id = restaurant_id
+
+       staff.save()
+
+       return res.status(201).send({
+         staff
+       });
+       //TODO: complete function
+    }) .catch(err => {
+      console.log("get OneRestaurant" , err);
+      return res.status(500).send({ message: err.message });
+    });
+
+
+  }).catch(err => {
+    console.log(err.msg);
+    return res.status(500).send({ message: err.message });
+
+  })
+
+}
+
 
 
 const createRestaurant = async (req, res) => {
@@ -246,10 +314,10 @@ const createRestaurant = async (req, res) => {
     phone_number: phone_number,
     localisation : localisation
   }).then(restaurants => {
-    res.status(200).send(restaurants);
+    return res.status(200).send(restaurants);
   }) .catch(err => {
-    console.log("get restaurants" , err);
-    res.status(500).send({ message: err.message });
+     console.log("get restaurants" , err);
+    return res.status(500).send({ message: err.message });
   });
 } 
 
@@ -257,28 +325,27 @@ const getRestaurantwithManagers = async (req,res) => {
   const id = req.query.id
 
   Restaurant.findAll({
-
     where: {
       id: id
       },
       include: [{
-        model: Stuff,
+        model: Stuff , as: "staff",
       }],
   }).then(response => {
-    res.status(200).send(response);
+    return res.status(200).send(response);
   }) .catch(err => {
-    console.log("get Restaurant with Managers" , err);
-    res.status(500).send({ message: err.message });
+   console.log("get Restaurant with Managers" , err);
+   return  res.status(500).send({ message: err.message });
   });
 } 
 
 const getRestaurants = async (req,res) => {
   Restaurant.findAll({
   }).then(restaurants => {
-    res.status(200).send(restaurants);
+    return res.status(200).send(restaurants);
   }) .catch(err => {
     console.log("get restaurants" , err);
-    res.status(500).send({ message: err.message });
+   return  res.status(500).send({ message: err.message });
   });
 } 
 
@@ -291,27 +358,265 @@ const getOneRestaurant = async (req,res) => {
       id : id
     }
   }).then(restaurant => {
-    res.status(200).send(restaurant);
+    if (restaurant) {
+      return res.status(200).send(restaurant);
+     } else {
+       return res.status(404).send({ msg: "No such restaurant "});
+     }
   }) .catch(err => {
     console.log("get OneRestaurant" , err);
-    res.status(500).send({ message: err.message });
+    return res.status(500).send({ message: err.message });
   });
 } 
 
 const deleteRestaurant = async (req,res) => {
-  const { id } = req.body;
 
+  const { id } = req.body;
+  
   Restaurant.destroy({
     where : {
       id : id
     }
-  }).then(restaurant => {
-    res.status(204).send("delted");
+  }).then(repsonse => {
+    if (repsonse) {
+      return  res.status(200).send({msg : "deleted"});
+    }
+    return  res.status(404).send({msg : "restaurant  not found"});
   }) .catch(err => {
-    console.log("get OneRestaurant" , err);
-    res.status(500).send({ message: err.message });
+    console.log("delete Restaurant" , err);
+   return res.status(500).send({ message: err.message });
   });
 } 
+
+
+// ************* Products ************* 
+
+const linkProductWithrestaurant = async (req,res) => {
+  const {  restaurant_id , product_id } = req.body;
+
+  Product.findOne({
+    where: {
+    id:  product_id
+    }
+  }).then(product => {
+
+
+    if (!product) {
+      return res.status(404).send({
+        message: "product not found",
+         });
+    }
+
+
+    Restaurant.findOne({
+      where : {
+        id : restaurant_id
+      }
+    }).then(restaurant => {
+      if (!restaurant) {
+        return res.status(404).send({ msg : 'restaurant not found'});
+       }
+
+       Restaurant_inter_product.create({
+        product_id: product_id,
+        restaurant_id : restaurant_id
+      })
+        .then(response => {
+          return res.status(201).send(response);
+          })
+          .catch(err => {
+            console.log("resto_inter_product creation" , err);
+           return  res.status(500).send({ message: err.message });
+          });
+
+    }) .catch(err => {
+      console.log("get OneRestaurant" , err);
+      return res.status(500).send({ message: err.message });
+    });
+
+  }).catch(err => {
+    console.log(err.msg);
+    return res.status(500).send({ message: err.message });
+  })
+}
+
+const createProduct = async (req,res) => {
+  const { category_id , name, description , image , price } = req.body;
+
+  Category.findOne({
+      where: {
+      id: category_id,
+      }
+  }).then(category => {
+      if (!category) {
+      return  res.status(404).send({
+          message: "no such category",
+      });
+      }
+      Product.create({
+        name: name,
+        image : image,
+        description: description,
+        price : price
+      })
+        .then(product => {
+          return res.status(201).send(product);
+          })
+          .catch(err => {
+            console.log("product creation" , err);
+           return  res.status(500).send({ message: err.message });
+          });
+  }).catch(err => {
+    console.log("product creation" , err);
+    res.status(500).send({ message: err.message });
+  });
+}
+
+const getProducts = async (req,res) => {
+  Product.findAll({
+    include: [{
+      model: Category , as: "Category",
+    }],
+  }).then(products => {
+    return res.status(200).send(products);
+  }) .catch(err => {
+   console.log("get products" , err);
+   return  res.status(500).send({ message: err.message });
+  });
+}
+
+const getOneProduct = async (req,res) => {
+  const id = req.query.id
+
+  Product.findOne({
+    where : {
+      id : id
+    },
+    include: [{
+      model: Category , as: "Category",
+    }],
+  }).then(product => {
+    if (product) {
+      return res.status(200).send(product);
+     } else {
+       return res.status(404).send({ msg: "No such product "});
+     }
+  }) .catch(err => {
+    console.log("get Oneproduct" , err);
+    return res.status(500).send({ message: err.message });
+  });
+} 
+
+
+const deleteProduct = async (req,res) => {
+
+  const { id } = req.body;
+  
+  Product.destroy({
+    where : {
+      id : id
+    }
+  }).then(repsonse => {
+    if (repsonse) {
+      return  res.status(200).send({msg : "deleted"});
+    }
+    return  res.status(404).send({msg : "Product not found"});
+  }) .catch(err => {
+    console.log("delete Product" , err);
+   return res.status(500).send({ message: err.message });
+  });
+} 
+
+
+// ************* Categories ************* 
+
+
+const getCategories = async (req,res) => {
+  Category.findAll({
+
+  }).then(categories => {
+    return res.status(200).send(categories);
+  }) .catch(err => {
+   console.log("get categories" , err);
+   return  res.status(500).send({ message: err.message });
+  });
+}
+
+const createCategory = async (req,res) => {
+  const { name } = req.body;
+
+  Category.findOne({
+      where: {
+      name: name,
+      }
+  }).then(category => {
+      if (category) {
+      return  res.status(400).send({
+          message: "Failed! category already exists",
+      });
+      }
+
+      Category.create({
+        name: name,
+      })
+          .then(category => {
+
+          return res.status(201).send(category);
+          })
+          .catch(err => {
+            console.log("category creation" , err);
+           return  res.status(500).send({ message: err.message });
+          });
+  }).catch(err => {
+    console.log("category creation" , err);
+    res.status(500).send({ message: err.message });
+  });
+}
+
+
+const getoneCategory = async (req,res) => {
+  const id = req.query.id
+
+  Category.findOne({
+    where : {
+      id : id
+    }
+  }).then(category => {
+    if (category) {
+      return res.status(200).send(category);
+     } else {
+       return res.status(404).send({ msg: "No such category "});
+     }
+  }) .catch(err => {
+      console.log("get OneCategory" , err);
+      return res.status(500).send({ message: err.message });
+  });
+}
+
+
+const deleteCategory = async (req,res) => {
+
+  const { id } = req.body;
+  
+  Category.destroy({
+    where : {
+      id : id
+    }
+  }).then(repsonse => {
+    if (repsonse) {
+      return  res.status(200).send({msg : "deleted"});
+    }
+    return  res.status(404).send({msg : "Category not found"});
+  }) .catch(err => {
+    console.log("delete Category" , err);
+   return res.status(500).send({ message: err.message });
+  });
+} 
+
+
+
+
+
 
 
 module.exports = {
@@ -328,5 +633,15 @@ module.exports = {
     deleteDeliveryBoy,
     deleteRestaurant,
     createRestaurant,
-    userBytoken
+    userBytoken,
+    linkRestaurantWithManager,
+    getProducts,
+    getCategories,
+    createCategory,
+    getoneCategory,
+    deleteCategory,
+    getOneProduct,
+    createProduct,
+    deleteProduct,
+    linkProductWithrestaurant
 }

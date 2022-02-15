@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Restaurant_inter_product.init({
-    name: DataTypes.STRING
+    product_id: DataTypes.INTEGER,
+    restaurant_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Restaurant_inter_product',

@@ -14,7 +14,6 @@ router.get(
 
 // ************* manager crud ************* 
 
-// []
 router.get(
     '/admin/managers',
     [checkAdmin.checkAdmin],
@@ -27,15 +26,14 @@ router.get(
     adminController.getOneManager
 );
 
-
 router.post(
     '/admin/manager',
     [checkAdmin.checkAdmin],
     adminController.createManager
 );
 
-router.post(
-    '/admin/deleteManager',
+router.delete(
+    '/admin/manager',
     [checkAdmin.checkAdmin],
     adminController.deleteManager
 );
@@ -43,13 +41,11 @@ router.post(
 
 // ************* DeliveryBoy crud ************* 
 
-
 router.post(
     '/admin/deliveryBoy',
     [checkAdmin.checkAdmin],
     adminController.createDeliveryBoy
 );
-
 
 router.get(
     '/admin/deliveryBoys',
@@ -57,22 +53,23 @@ router.get(
     adminController.getDeliveryBoys
 );
 
+
 router.get(
     '/admin/deliveryBoy',
     [checkAdmin.checkAdmin],
     adminController.getOneDeliveryBoy
 );
 
-router.post(
-    '/admin/deleteDeliveryBoy',
+
+router.delete(
+    '/admin/deliveryBoy',
     [checkAdmin.checkAdmin],
     adminController.deleteDeliveryBoy
 );
 
 
-
-
 // ************* Restaurant crud ************* 
+
 
 
 router.get(
@@ -81,6 +78,7 @@ router.get(
     adminController.getRestaurantwithManagers
 )
 
+
 router.post(
     '/admin/restaurant',
     [checkAdmin.checkAdmin],
@@ -88,17 +86,27 @@ router.post(
 );
 
 
+
 router.post(
-    '/admin/deleteRestaurant',
+    '/admin/restaurant_manager',
+    [checkAdmin.checkAdmin],
+    adminController.linkRestaurantWithManager
+);
+
+
+router.delete(
+    '/admin/restaurant',
     [checkAdmin.checkAdmin],
     adminController.deleteRestaurant
 );
+
 
 router.get(
     '/admin/restaurants',
     [checkAdmin.checkAdmin],
     adminController.getRestaurants
 );
+
 
 router.get(
     '/admin/restaurant',
@@ -107,8 +115,58 @@ router.get(
 );
 
 
+// ************* Product ************* 
 
 
+router.get(
+    '/admin/products',
+    [checkAdmin.checkAdmin],
+    adminController.getProducts
+);
+router.get(
+    '/admin/product',
+    [checkAdmin.checkAdmin],
+    adminController.getOneProduct
+);
+
+router.post(
+    '/admin/product',
+    [checkAdmin.checkAdmin],
+    adminController.createProduct
+);
+
+router.delete(
+    '/admin/product',
+    [checkAdmin.checkAdmin],
+    adminController.deleteProduct
+);
+
+// ************* Category ************* 
+
+router.get(
+    '/admin/categories',
+    [checkAdmin.checkAdmin],
+    adminController.getCategories
+);
+
+router.get(
+    '/admin/categorie',
+    [checkAdmin.checkAdmin],
+    adminController.getoneCategory
+);
+
+
+router.post(
+    '/admin/categorie',
+    [checkAdmin.checkAdmin],
+    adminController.createCategory
+);
+
+router.delete(
+    '/admin/categorie',
+    [checkAdmin.checkAdmin],
+    adminController.deleteCategory
+);
 
 
 module.exports = router;

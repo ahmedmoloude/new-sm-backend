@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      static associate(models) {
       Restaurant.hasMany(models.Stuff, {
         foreignKey: 'restaurant_id',
-        as: 'stuff',
+        as: 'staff',
       });
     }
   }

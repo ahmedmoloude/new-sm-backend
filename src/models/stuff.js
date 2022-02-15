@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     phone_number: DataTypes.INTEGER,
     fcm_token: DataTypes.STRING,
-    hashed_password: DataTypes.STRING(64)
+    hashed_password: DataTypes.STRING(64),
+    restaurant_id : DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Stuff',
