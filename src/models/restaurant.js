@@ -1,3 +1,6 @@
+const moment = require("moment")
+
+
 'use strict';
 const {
   Model
@@ -13,7 +16,13 @@ module.exports = (sequelize, DataTypes) => {
       Restaurant.hasMany(models.Stuff, {
         foreignKey: 'restaurant_id',
         as: 'staff',
+      });     
+      Restaurant.belongsToMany(models.Product, {
+        through: "Restaurant_inter_product",
+        as: "products",
+        foreignKey: "restaurant_id",
       });
+      
     }
   }
   Restaurant.init({
@@ -21,7 +30,21 @@ module.exports = (sequelize, DataTypes) => {
     phone_number : DataTypes.INTEGER,
     localisation: DataTypes.STRING,
     region: DataTypes.STRING,
-    statut :  DataTypes.BOOLEAN
+    statut :  DataTypes.BOOLEAN,
+    createdAt: {
+      type: DataTypes.DATE,
+      get: function() { 
+        return  moment(this.getDataValue('createdAt'))
+          .format('DD-MM-YYYY h:mm:ss');
+      }
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      get: function() { 
+        return  moment(this.getDataValue('updatedAt'))
+          .format('DD-MM-YYYY h:mm:ss');
+      }
+    },
     }, {
     sequelize,
     modelName: 'Restaurant',

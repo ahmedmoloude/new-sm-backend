@@ -2,7 +2,34 @@ const express = require("express");
 const { checkAdmin } = require("../middlewares");
 const router = express.Router();
 const  adminController = require("../controllores/adminActions/adminController")
+const multer = require('multer');
 
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, './uploads/');
+    },
+    filename: function(req, file, cb) {
+      cb(null, new Date().toISOString() + req.name );
+    }
+  });
+  
+  const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  };
+  
+  const upload = multer({
+    storage: storage,
+    limits: {
+      fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+  });
 
 
 // ************* check token ************* 
@@ -131,8 +158,14 @@ router.get(
 
 router.post(
     '/admin/product',
-    [checkAdmin.checkAdmin],
+    [checkAdmin.checkAdmin , upload.single('productImage')],
     adminController.createProduct
+);
+
+router.post(
+    '/admin/product_restaurant',
+    [checkAdmin.checkAdmin],
+    adminController.linkProductWithrestaurant
 );
 
 router.delete(
@@ -167,6 +200,21 @@ router.delete(
     [checkAdmin.checkAdmin],
     adminController.deleteCategory
 );
+
+
+router.get(
+    '/admin/clients',
+    [checkAdmin.checkAdmin],
+    adminController.getClients
+);
+
+router.patch(
+    '/admin/update_client_status',
+    [checkAdmin.checkAdmin],
+    adminController.updateClientStatus
+);
+
+
 
 
 module.exports = router;

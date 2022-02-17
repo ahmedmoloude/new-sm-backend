@@ -11,19 +11,19 @@ const secret = require('../../config/jwtConfig');
 
 
 const registerClient = async (req , res) => {
-     console.log(req.body);
     const { email, password , user_name , phone_number} = req.body;
      Client.create({
         user_name: user_name,
         email: email,
         phone_number: phone_number,
-        hashed_password: bcrypt.hashSync(password, 8)
+        hashed_password: bcrypt.hashSync(password, 8),
+        fcm_token : ""
       })
         .then(client => {
           const token = jwt.sign({ id: client.id }, secret, {
              expiresIn: '365d'
           });    
-          res.status(201).send({ client: client , token : token });
+          res.status(201).send({ client: client.getInformation() , token : token });
         })
         .catch(err => {
           res.status(500).send({ message: err.message });
@@ -58,7 +58,7 @@ const registerClientThirdParty = async (req , res) => {
           const token = jwt.sign({ id: client.id }, secret, {
            expiresIn: '365d'     
            });    
-          res.status(201).send({ client: client , token : token });
+          res.status(201).send({ client: client.getInformation() , token : token });
         })
         .catch(err => {
           console.log("uers creation" , err);
@@ -107,9 +107,7 @@ const loginClient = async (req, res) => {
         expiresIn: '365d'      });
 
       res.status(200).send({
-        id: user.id,
-        username: user.user_name,
-        email: user.email,
+        client: user.getInformation(),
         accessToken: token
       });
 

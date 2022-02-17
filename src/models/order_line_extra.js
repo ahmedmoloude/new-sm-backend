@@ -1,3 +1,6 @@
+const moment = require("moment")
+
+
 'use strict';
 const {
   Model
@@ -14,7 +17,21 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Order_line_extra.init({
-    qte: DataTypes.STRING
+    qte: DataTypes.STRING,
+    createdAt: {
+      type: DataTypes.DATE,
+      get: function() { 
+        return  moment(this.getDataValue('createdAt'))
+          .format('DD-MM-YYYY h:mm:ss');
+      }
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      get: function() { 
+        return  moment(this.getDataValue('updatedAt'))
+          .format('DD-MM-YYYY h:mm:ss');
+      }
+    },
   }, {
     sequelize,
     modelName: 'Order_line_extra',

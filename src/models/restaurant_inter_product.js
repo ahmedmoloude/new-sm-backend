@@ -1,3 +1,6 @@
+const moment = require("moment")
+
+
 'use strict';
 const {
   Model
@@ -15,7 +18,21 @@ module.exports = (sequelize, DataTypes) => {
   }
   Restaurant_inter_product.init({
     product_id: DataTypes.INTEGER,
-    restaurant_id: DataTypes.INTEGER
+    restaurant_id: DataTypes.INTEGER,
+    createdAt: {
+      type: DataTypes.DATE,
+      get: function() { 
+        return  moment(this.getDataValue('createdAt'))
+          .format('DD-MM-YYYY h:mm:ss');
+      }
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      get: function() { 
+        return  moment(this.getDataValue('updatedAt'))
+          .format('DD-MM-YYYY h:mm:ss');
+      }
+    },
   }, {
     sequelize,
     modelName: 'Restaurant_inter_product',

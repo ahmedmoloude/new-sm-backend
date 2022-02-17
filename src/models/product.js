@@ -1,3 +1,6 @@
+const moment = require("moment")
+
+
 'use strict';
 const {
   Model
@@ -10,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Product.belongsToMany(models.Restaurant, {
+        through: "Restaurant_inter_product",
+        as: "restaurants",
+        foreignKey: "product_id",
+      });
     }
   }
   Product.init({
@@ -19,7 +26,21 @@ module.exports = (sequelize, DataTypes) => {
     description : DataTypes.STRING,
     price : DataTypes.DOUBLE,
     rating : DataTypes.INTEGER,
-    category_id : DataTypes.INTEGER
+    category_id : DataTypes.INTEGER,
+    createdAt: {
+      type: DataTypes.DATE,
+      get: function() { 
+        return  moment(this.getDataValue('createdAt'))
+          .format('DD-MM-YYYY h:mm:ss');
+      }
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      get: function() { 
+        return  moment(this.getDataValue('updatedAt'))
+          .format('DD-MM-YYYY h:mm:ss');
+      }
+    },
   }, {
     sequelize,
     modelName: 'Product',
