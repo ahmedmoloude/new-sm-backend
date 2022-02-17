@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
       cb(null, './uploads/');
     },
     filename: function(req, file, cb) {
-      cb(null, new Date().toISOString() + req.name );
+      cb(null,  req.body.name + new Date().toISOString() + file.originalname  );
     }
   });
   
@@ -111,15 +111,6 @@ router.post(
     [checkAdmin.checkAdmin],
     adminController.createRestaurant
 );
-
-
-
-router.post(
-    '/admin/restaurant_manager',
-    [checkAdmin.checkAdmin],
-    adminController.linkRestaurantWithManager
-);
-
 
 router.delete(
     '/admin/restaurant',

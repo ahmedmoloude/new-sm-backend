@@ -13,7 +13,6 @@ const Restaurant_inter_product = require('../../models/index').Restaurant_inter_
 
 
 
-
   const  updateClientStatus = async (req,res) => {
 
     const {  client_id   } = req.body;
@@ -49,7 +48,8 @@ const Restaurant_inter_product = require('../../models/index').Restaurant_inter_
 
 const getClients =  async (req,res) => {
   Client.findAll({
-    attributes: ['id', 'user_name' , 'email' , 'phone_number' , 'fcm_token' , 'client_is_active' , 'createdAt' , 'updatedAt' ]
+    attributes: ['id', 'user_name' , 'email' , 'phone_number' , 'fcm_token' , 'client_is_active' , 'createdAt' , 'updatedAt' ],
+    order:  [['createdAt', 'DESC']]
   }).then(clients => {
   return res.status(200).send(clients);
   }).catch(err => {
@@ -170,6 +170,7 @@ const getManagers = async (req,res) => {
       include: [{
         model: Restaurant , as: "restaurant",
       }],
+      order:  [['createdAt', 'DESC']]
   }).then(managers => {
   return   res.status(200).send(managers);
   }).catch(err => {
@@ -271,12 +272,12 @@ const getDeliveryBoys = async (req,res) => {
 
     const count = req.query.count
       DeliveryBoy.findAll({
-        limit: count ?? 10
+        order:  [['createdAt', 'DESC']]
       }).then(deliveryBoys => {
        return res.status(200).send(deliveryBoys);
       }) .catch(err => {
         console.log("get DeliveryBoys" , err);
-    return    res.status(500).send({ message: err.message });
+        return  res.status(500).send({ message: err.message });
       });
 } 
 
@@ -326,36 +327,6 @@ const deleteDeliveryBoy = async (req,res) => {
 
 // ************* Restaurant crud ************* 
 
-const linkRestaurantWithManager = async (req,res) => {
-  const {  restaurant_id , manager_id } = req.body;
-
-  Stuff.findOne({
-    where: {
-    id:  manager_id
-    }
-  }).then(staff => {
-
-
-    if (!staff) {
-      return res.status(404).send({
-        message: "staff not found",
-         });
-    }
-
-
-
-
-
-  }).catch(err => {
-    console.log(err.msg);
-    return res.status(500).send({ message: err.message });
-
-  })
-
-}
-
-
-
 const createRestaurant = async (req, res) => {
   const {  region , name , phone_number , localisation} = req.body;
 
@@ -382,6 +353,7 @@ const getRestaurantwithManagers = async (req,res) => {
       include: [{
         model: Product , as: "products" ,  attributes: {exclude:'Restaurant_inter_product' }
       }],
+      order:  [['createdAt', 'DESC']]
   }).then(response => {
     return res.status(200).send(response);
   }) .catch(err => {
@@ -392,6 +364,7 @@ const getRestaurantwithManagers = async (req,res) => {
 
 const getRestaurants = async (req,res) => {
   Restaurant.findAll({
+    order:  [['createdAt', 'DESC']]
   }).then(restaurants => {
     return res.status(200).send(restaurants);
   }) .catch(err => {
@@ -504,7 +477,7 @@ const createProduct = async (req,res) => {
       }
       Product.create({
         name: name,
-        image : req.file.path,
+        image : req.file.filename,
         description: description,
         price : price,
         category_id : category_id
@@ -527,6 +500,7 @@ const getProducts = async (req,res) => {
     include: [{
       model: Category , as: "Category",
     }],
+    order:  [['createdAt', 'DESC']]
   }).then(products => {
     return res.status(200).send(products);
   }) .catch(err => {
@@ -583,6 +557,7 @@ const deleteProduct = async (req,res) => {
 
 const getCategories = async (req,res) => {
   Category.findAll({
+    order:  [['createdAt', 'DESC']]
 
   }).then(categories => {
     return res.status(200).send(categories);
@@ -684,7 +659,6 @@ module.exports = {
     deleteRestaurant,
     createRestaurant,
     userBytoken,
-    linkRestaurantWithManager,
     getProducts,
     getCategories,
     createCategory,
