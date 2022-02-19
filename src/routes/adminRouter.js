@@ -141,6 +141,13 @@ router.get(
     [checkAdmin.checkAdmin],
     adminController.getProducts
 );
+
+
+router.get(
+    '/admin/products_bu_category',
+    [checkAdmin.checkAdmin],
+    adminController.getProductsByCategory
+);
 router.get(
     '/admin/product',
     [checkAdmin.checkAdmin],
@@ -198,6 +205,13 @@ router.get(
     [checkAdmin.checkAdmin],
     adminController.getClients
 );
+
+router.delete(
+    '/admin/client',
+    [checkAdmin.checkAdmin],
+    adminController.deleteClient
+);
+
 
 router.patch(
     '/admin/update_client_status',

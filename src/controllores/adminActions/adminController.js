@@ -7,10 +7,29 @@ const Restaurant = require('../../models/index').Restaurant;
 const Product = require('../../models/index').Product;
 const Category = require('../../models/index').Category;
 const Client = require('../../models/index').Client;
-const moment = require('moment');
 const Restaurant_inter_product = require('../../models/index').Restaurant_inter_product;
 
+ 
 
+const deleteClient = async (req,res) => {
+
+  const { id } = req.body;
+
+  Client.destroy({
+    where: {
+      id: id
+      },
+  }).then(response => {
+    if (response) {
+      return  res.status(200).send({msg : "deleted"});
+    }
+    return  res.status(404).send({msg : "client not found"});
+
+  }) .catch(err => {
+    console.log("delet client" , err);
+    return res.status(500).send({ message: err.message });
+  });
+} 
 
 
   const  updateClientStatus = async (req,res) => {
@@ -509,9 +528,27 @@ const getProducts = async (req,res) => {
   });
 }
 
+
+const getProductsByCategory = async (req,res) => {
+
+  const category_id = req.query.category_id 
+
+  Product.findAll({
+    where: { category_id : category_id}, 
+    include: [{
+      model: Category , as: "Category",
+    }],
+    order:  [['createdAt', 'DESC']]
+  }).then(products => {
+    return res.status(200).send(products);
+  }) .catch(err => {
+   console.log("get products" , err);
+   return  res.status(500).send({ message: err.message });
+  });
+}
+
 const getOneProduct = async (req,res) => {
   const id = req.query.id
-
   Product.findOne({
     where : {
       id : id
@@ -521,7 +558,7 @@ const getOneProduct = async (req,res) => {
     }],
   }).then(product => {
     if (product) {
-      return res.status(200).send(product);
+       return res.status(200).send(product);
      } else {
        return res.status(404).send({ msg: "No such product "});
      }
@@ -669,5 +706,7 @@ module.exports = {
     deleteProduct,
     linkProductWithrestaurant,
     getClients,
-    updateClientStatus
+    updateClientStatus,
+    getProductsByCategory,
+    deleteClient
 }
