@@ -396,7 +396,7 @@ const getRestaurants = async (req,res) => {
 const getOneRestaurant = async (req,res) => {
   const id = req.query.id
 
-  Restaurant.findAll({
+  Restaurant.findOne({
     where: {
       id: id
       },
