@@ -99,11 +99,11 @@ router.delete(
 
 
 
-router.get(
-    '/admin/restaurantWithManagers',
-    [checkAdmin.checkAdmin],
-    adminController.getRestaurantwithManagers
-)
+// router.get(
+//     '/admin/restaurantWithManagers',
+//     [checkAdmin.checkAdmin],
+//     adminController.getRestaurantwithManagers
+// )
 
 
 router.post(

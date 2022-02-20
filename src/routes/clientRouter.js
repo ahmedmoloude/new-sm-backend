@@ -9,6 +9,12 @@ router.get('/products' ,
    adminController.getProducts
 )
 
+
+router.get('/categories' ,
+   adminController.getCategories
+)
+
+
 router.get('/products_by_category' ,
    adminController.getProductsByCategory
 )
