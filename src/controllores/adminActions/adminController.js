@@ -396,19 +396,22 @@ const getRestaurants = async (req,res) => {
 const getOneRestaurant = async (req,res) => {
   const id = req.query.id
 
-  Restaurant.findOne({
-    where : {
-      id : id
+  Restaurant.findAll({
+    where: {
+      id: id
+      },
+      include: [{
+        model: Product , as: "products" ,  attributes: {exclude:'Restaurant_inter_product' }
+      }],
+      order:  [['createdAt', 'DESC']]
+  }).then(response => {
+    if (response){
+      return  res.status(200).send(response);
     }
-  }).then(restaurant => {
-    if (restaurant) {
-      return res.status(200).send(restaurant);
-     } else {
-       return res.status(404).send({ msg: "No such restaurant "});
-     }
+    return res.status(404).send({ msg : "resturant not found" });
   }) .catch(err => {
-    console.log("get OneRestaurant" , err);
-    return res.status(500).send({ message: err.message });
+   console.log("get Restaurant with Managers" , err);
+   return  res.status(500).send({ message: err.message });
   });
 } 
 
