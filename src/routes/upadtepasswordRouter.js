@@ -6,8 +6,8 @@ const  updatePasswordController = require("../controllores/upatePassword/updateP
 
 
 router.patch(   
-    '/stuff',
-    updatePasswordController.updatePasswordStuff
+    '/staff',
+    updatePasswordController.updatePasswordStaff
 );
 
 router.patch(   

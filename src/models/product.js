@@ -18,6 +18,12 @@ module.exports = (sequelize, DataTypes) => {
         as : "Category",
         onDelete: 'CASCADE',
       });
+      Product.belongsToMany(models.Extra_product, {
+        through: "Product_inter_productExtra",
+        as: "extra_products",
+        foreignKey: "product_id",
+      });
+    
     }
   }
   Product.init({
@@ -25,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     image : DataTypes.STRING,
     description : DataTypes.STRING,
     price : DataTypes.DOUBLE,
-    rating : DataTypes.INTEGER,
+    rating : DataTypes.DOUBLE,
     category_id : DataTypes.INTEGER,
     createdAt: {
       type: DataTypes.DATE,

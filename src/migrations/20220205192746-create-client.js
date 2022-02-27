@@ -19,7 +19,6 @@ module.exports = {
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false,
         validate: {
           isEmail: {
             msg: "Must be a valid email address",
@@ -41,7 +40,6 @@ module.exports = {
         type: Sequelize.STRING,
       },
       fcm_token : {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       createdAt: {

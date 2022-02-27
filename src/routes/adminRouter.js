@@ -1,7 +1,7 @@
 const express = require("express");
 const { checkAdmin } = require("../middlewares");
 const router = express.Router();
-const  adminController = require("../controllores/adminActions/adminController")
+const  { adminControllers } = require("../controllores/index")
 const multer = require('multer');
 
 
@@ -35,7 +35,7 @@ const storage = multer.diskStorage({
 // ************* check token ************* 
 router.get(
     '/user_by_token',
-    adminController.userBytoken
+    adminControllers.staffController.userBytoken
 );
 
 
@@ -44,25 +44,25 @@ router.get(
 router.get(
     '/admin/managers',
     [checkAdmin.checkAdmin],
-    adminController.getManagers
+    adminControllers.staffController.getManagers
 );
 
 router.get(
     '/admin/manager',
     [checkAdmin.checkAdmin],
-    adminController.getOneManager
+    adminControllers.staffController.getOneManager
 );
 
 router.post(
     '/admin/manager',
     [checkAdmin.checkAdmin],
-    adminController.createManager
+    adminControllers.staffController.createManager
 );
 
 router.delete(
     '/admin/manager',
     [checkAdmin.checkAdmin],
-    adminController.deleteManager
+    adminControllers.staffController.deleteManager
 );
 
 
@@ -71,27 +71,27 @@ router.delete(
 router.post(
     '/admin/deliveryBoy',
     [checkAdmin.checkAdmin],
-    adminController.createDeliveryBoy
+    adminControllers.deliveryBoyController.createDeliveryBoy
 );
 
 router.get(
     '/admin/deliveryBoys',
     [checkAdmin.checkAdmin],
-    adminController.getDeliveryBoys
+    adminControllers.deliveryBoyController.getDeliveryBoys
 );
 
 
 router.get(
     '/admin/deliveryBoy',
     [checkAdmin.checkAdmin],
-    adminController.getOneDeliveryBoy
+    adminControllers.deliveryBoyController.getOneDeliveryBoy
 );
 
 
 router.delete(
     '/admin/deliveryBoy',
     [checkAdmin.checkAdmin],
-    adminController.deleteDeliveryBoy
+    adminControllers.deliveryBoyController.deleteDeliveryBoy
 );
 
 
@@ -102,34 +102,34 @@ router.delete(
 // router.get(
 //     '/admin/restaurantWithManagers',
 //     [checkAdmin.checkAdmin],
-//     adminController.getRestaurantwithManagers
+//     adminControllers.getRestaurantwithManagers
 // )
 
 
 router.post(
     '/admin/restaurant',
     [checkAdmin.checkAdmin],
-    adminController.createRestaurant
+    adminControllers.restaurantController.createRestaurant
 );
 
 router.delete(
     '/admin/restaurant',
     [checkAdmin.checkAdmin],
-    adminController.deleteRestaurant
+    adminControllers.restaurantController.deleteRestaurant
 );
 
 
 router.get(
     '/admin/restaurants',
     [checkAdmin.checkAdmin],
-    adminController.getRestaurants
+    adminControllers.restaurantController.getRestaurants
 );
 
 
 router.get(
     '/admin/restaurant',
     [checkAdmin.checkAdmin],
-    adminController.getOneRestaurant
+    adminControllers.restaurantController.getOneRestaurant
 );
 
 
@@ -139,37 +139,37 @@ router.get(
 router.get(
     '/admin/products',
     [checkAdmin.checkAdmin],
-    adminController.getProducts
+    adminControllers.productController.getProducts
 );
 
 
 router.get(
     '/admin/products_bu_category',
     [checkAdmin.checkAdmin],
-    adminController.getProductsByCategory
+    adminControllers.productController.getProductsByCategory
 );
 router.get(
     '/admin/product',
     [checkAdmin.checkAdmin],
-    adminController.getOneProduct
+    adminControllers.productController.getOneProduct
 );
 
 router.post(
     '/admin/product',
     [checkAdmin.checkAdmin , upload.single('productImage')],
-    adminController.createProduct
+    adminControllers.productController.createProduct
 );
 
 router.post(
     '/admin/product_restaurant',
     [checkAdmin.checkAdmin],
-    adminController.linkProductWithrestaurant
+    adminControllers.productController.linkProductWithrestaurant
 );
 
 router.delete(
     '/admin/product',
     [checkAdmin.checkAdmin],
-    adminController.deleteProduct
+    adminControllers.productController.deleteProduct
 );
 
 // ************* Category ************* 
@@ -177,48 +177,111 @@ router.delete(
 router.get(
     '/admin/categories',
     [checkAdmin.checkAdmin],
-    adminController.getCategories
+    adminControllers.categoriesController.getCategories
 );
 
 router.get(
     '/admin/categorie',
     [checkAdmin.checkAdmin],
-    adminController.getoneCategory
+    adminControllers.categoriesController.getoneCategory
 );
 
 
 router.post(
     '/admin/categorie',
     [checkAdmin.checkAdmin],
-    adminController.createCategory
+    adminControllers.categoriesController.createCategory
 );
 
 router.delete(
     '/admin/categorie',
     [checkAdmin.checkAdmin],
-    adminController.deleteCategory
+    adminControllers.categoriesController.deleteCategory
 );
 
 
 router.get(
     '/admin/clients',
     [checkAdmin.checkAdmin],
-    adminController.getClients
+    adminControllers.clientController.getClients
 );
 
 router.delete(
     '/admin/client',
     [checkAdmin.checkAdmin],
-    adminController.deleteClient
+    adminControllers.clientController.deleteClient
 );
 
 
 router.patch(
     '/admin/update_client_status',
     [checkAdmin.checkAdmin],
-    adminController.updateClientStatus
+    adminControllers.clientController.updateClientStatus
 );
 
+
+
+// extra product
+router.get(
+    '/admin/extra_products',
+    [checkAdmin.checkAdmin],
+    adminControllers.extraProductController.getExtraProducts
+);
+
+
+router.get(
+    '/admin/extra_product',
+    [checkAdmin.checkAdmin],
+    adminControllers.extraProductController.getOneExtraProduct
+);
+
+router.post(
+    '/admin/extra_product',
+    [checkAdmin.checkAdmin , upload.single('productImage')],
+    adminControllers.extraProductController.createExtraProduct
+);
+
+router.post(
+    '/admin/extraproduct_product',
+    [checkAdmin.checkAdmin],
+    adminControllers.extraProductController.linkProductWithExtraproduct
+);
+
+router.delete(
+    '/admin/product',
+    [checkAdmin.checkAdmin],
+    adminControllers.productController.deleteProduct
+);
+
+
+// extra categories
+
+
+
+router.get(
+    '/admin/extra_categories',
+    [checkAdmin.checkAdmin],
+    adminControllers.extraCategoryController.getExtraCategories
+);
+
+router.get(
+    '/admin/extra_categorie',
+    [checkAdmin.checkAdmin],
+    adminControllers.extraCategoryController.getoneExtraCategory
+);
+
+
+router.post(
+    '/admin/extra_categorie',
+    [checkAdmin.checkAdmin],
+    adminControllers.extraCategoryController.createExtraCategory
+);
+
+router.delete(
+    '/admin/extra_categorie',
+    [checkAdmin.checkAdmin],
+    adminControllers.extraCategoryController.deleteExtraCategory
+);
 
 
 

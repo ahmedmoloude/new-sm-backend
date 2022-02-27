@@ -38,7 +38,6 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       fcm_token : {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       statut: {
@@ -47,7 +46,7 @@ module.exports = {
       },
       rating : {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
         defaultValue : 0,
         validate : {
           max : 5

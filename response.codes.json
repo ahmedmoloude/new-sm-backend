@@ -1,0 +1,9 @@
+
+{
+    "P-" : "product",
+    "C-" : "category",
+    "CL-" : "clients",
+    "DB-" : "deliverBoy",
+    "RS-" : "restaurant",
+    "ST-" : "staff"
+}

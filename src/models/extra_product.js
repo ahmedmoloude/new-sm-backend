@@ -13,11 +13,25 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Extra_product.belongsTo(models.Category_extra, {
+        foreignKey: 'category_extra_id',
+        as : "category_extra",
+        onDelete: 'CASCADE',
+      });
+
+      Extra_product.belongsToMany(models.Product, {
+        through: "Product_inter_productExtra",
+        as: "products",
+        foreignKey: "product_extra_id",
+      });
+    
     }
   }
   Extra_product.init({
     name: DataTypes.STRING,
+    image: DataTypes.STRING,
+    price : DataTypes.DOUBLE,
+    category_extra_id : DataTypes.INTEGER,
     createdAt: {
       type: DataTypes.DATE,
       get: function() { 

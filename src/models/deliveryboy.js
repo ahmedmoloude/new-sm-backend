@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     user_name: DataTypes.STRING,
     email: DataTypes.STRING,
     phone_number: DataTypes.INTEGER,
-    rating: DataTypes.INTEGER,
+    rating: DataTypes.DOUBLE,
     hashed_password: DataTypes.STRING(64),
     adresse : DataTypes.STRING,
     fcm_token : DataTypes.STRING,

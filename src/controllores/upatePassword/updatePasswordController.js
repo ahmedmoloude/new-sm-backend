@@ -2,12 +2,12 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const Client = require('../../models/index').Client;
-const Stuff = require('../../models/index').Stuff;
+const Staff = require('../../models/index').Staff;
 const DeliveryBoy = require('../../models/index').DeliveryBoy;
 const secret = require('../../config/jwtConfig');
 
 
-const updatePasswordStuff = async (req,res) => {
+const updatePasswordStaff = async (req,res) => {
     const token = req.headers["x-access-token"];
 
     const { old_password, new_password} = req.body;
@@ -21,21 +21,21 @@ const updatePasswordStuff = async (req,res) => {
           
         }
 
-        Stuff.findOne({
+        Staff.findOne({
             where: {
             id:  decoded.id
             }
-        }).then(stuff => {
+        }).then(staff => {
 
-          if (!stuff) {
+          if (!staff) {
             return res.status(401).send({
-              message: "you are not a stuff",
+              message: "you are not a staff",
                });
            }
 
            const passwordIsValid = bcrypt.compareSync(
             old_password,
-            stuff.hashed_password
+            staff.hashed_password
           );
 
           console.log(passwordIsValid);
@@ -46,9 +46,9 @@ const updatePasswordStuff = async (req,res) => {
             });
           }
 
-          stuff.hashed_password = bcrypt.hashSync(new_password, 8)
+          staff.hashed_password = bcrypt.hashSync(new_password, 8)
 
-          stuff.save()
+          staff.save()
 
           return res.status(201).send({
             message : "password updated "
@@ -162,7 +162,7 @@ const updatePasswordDeliveryBoy = async (req,res) => {
 
 
 module.exports = {
-    updatePasswordStuff,
+    updatePasswordStaff,
     updatePasswordClient,
     updatePasswordDeliveryBoy
 }

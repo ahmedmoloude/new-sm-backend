@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Stuff', {
+    await queryInterface.createTable('Staff', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -30,7 +30,6 @@ module.exports = {
         defaultValue: 'Manager'
       },
       fcm_token : {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       restaurant_id: {
@@ -58,6 +57,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Stuff');
+    await queryInterface.dropTable('Staff');
   }
 };

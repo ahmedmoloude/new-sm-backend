@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Product_inter_productExtra.init({
-    name: DataTypes.STRING,
+    product_id: DataTypes.INTEGER,
+    product_extra_id: DataTypes.INTEGER,
     createdAt: {
       type: DataTypes.DATE,
       get: function() { 

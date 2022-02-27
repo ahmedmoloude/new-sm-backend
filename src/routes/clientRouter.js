@@ -1,22 +1,22 @@
 const express = require("express");
 const { checkAdmin } = require("../middlewares");
 const router = express.Router();
-const   adminController = require("../controllores/adminActions/adminController")
+const   adminController = require("../controllores/admin")
 
 
 
 router.get('/products' ,
-   adminController.getProducts
+   adminController.productController.getProducts
 )
 
 
 router.get('/categories' ,
-   adminController.getCategories
+   adminController.categoriesController.getCategories
 )
 
 
 router.get('/products_by_category' ,
-   adminController.getProductsByCategory
+   adminController.productController.getProductsByCategory
 )
 
 module.exports = router

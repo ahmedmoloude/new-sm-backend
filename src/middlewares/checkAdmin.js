@@ -1,5 +1,5 @@
 
-const Stuff = require('../models').Stuff;
+const Staff = require('../models').Staff;
 const jwt = require("jsonwebtoken");
 
 const secret = require('../config/jwtConfig');
@@ -23,19 +23,19 @@ const checkAdmin = (req, res, next) => {
           });
           return;
         }
-        Stuff.findOne({
+        Staff.findOne({
             where: {
             id:  decoded.id
             }
-        }).then(stuff => {
+        }).then(staff => {
 
-          if (!stuff) {
+          if (!staff) {
             res.status(401).send({
-              message: "you are not a stuff",
+              message: "you are not a staff",
           });
           return;
           }
-          if (stuff.role != "Admin") {
+          if (staff.role != "Admin") {
             res.status(401).send({
               message: "Only admins",
           });

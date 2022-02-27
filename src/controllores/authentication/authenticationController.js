@@ -3,7 +3,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const Client = require('../../models/index').Client;
-const Stuff = require('../../models/index').Stuff;
+const Staff = require('../../models/index').Staff;
 const DeliveryBoy = require('../../models/index').DeliveryBoy;
 
 
@@ -117,10 +117,10 @@ const loginClient = async (req, res) => {
     });
 };
 
-const loginStuff = async (req, res) => {
+const loginStaff = async (req, res) => {
       const { password , phone_number } = req.body;
       console.log(password);
-      Stuff.findOne({
+      Staff.findOne({
         where: {
           phone_number: phone_number
         }
@@ -217,6 +217,6 @@ module.exports = {
   registerClient,
   loginClient,
   registerClientThirdParty,
-  loginStuff,
+  loginStaff,
   loginDeliveryBoy
 };
