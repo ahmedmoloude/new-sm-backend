@@ -33,7 +33,7 @@ const getExtraCategories = async (req,res) => {
       const extra_categories = await paginate(Category_extra, include,  page, limit, search, order , exclude);
 
       return res.status(200).send({
-          data: extra_categories
+           extra_categories
       })
     } catch (error) {
       console.log('Failed to fetch extra_categories', error);

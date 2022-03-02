@@ -94,7 +94,7 @@ const getManagers = async (req,res) => {
     const staff = await paginate(Staff, include,  page, limit, search, order ,exclude);
 
     return res.status(200).send({
-        data: staff
+        staff
     })
   } catch (error) {
     console.log('Failed to fetch staff', error);

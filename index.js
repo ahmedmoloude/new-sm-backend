@@ -2,8 +2,15 @@ const express = require("express");
 const routes = require("./src/routes/index");
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const http = require('http');
+const Server = require('socket.io').Server
 
 const app = express()
+
+
+const httpServer = http.createServer(app);
+const io = new Server(httpServer);
+
 
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -23,7 +30,7 @@ app.get('*', function(req, res){
     res.status(404).send({ Message: 'Not found'})
 });
 
-app.listen(port, () => {
+httpServer.listen(port, () => {
      console.log(
          `Listening to port 3000`
      );

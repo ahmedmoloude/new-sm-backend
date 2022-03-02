@@ -91,7 +91,7 @@ const getClients =  async (req,res) => {
     const clients = await paginate(Client, include,  page, limit, search, order , exclude);
 
     return res.status(200).send({
-        data: clients
+        clients
     })
     } catch (error) {
     console.log('Failed to fetch clients', error);

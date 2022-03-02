@@ -17,7 +17,22 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Order.init({
-    name: DataTypes.STRING,
+    estimated_time : DataTypes.DATE,
+    order_amount : DataTypes.DOUBLE,
+    delivery_fee : DataTypes.DOUBLE,
+    amount_total : DataTypes.DOUBLE,
+    restaurant_id : DataTypes.INTEGER,
+    delivery_boy_id : DataTypes.INTEGER,
+    client_id : DataTypes.INTEGER,
+    manager_id : DataTypes.INTEGER,
+    status: {
+      type:   DataTypes.ENUM,
+      values: ["created" , "processing", "picked_up", "delivred" , "canceled"]
+    },
+    paiement_methode: {
+      type:   DataTypes.ENUM,
+      values: ["Cash_on_delivery" , "Bankily", "Masrvi", "Stripe"]
+    },
     createdAt: {
       type: DataTypes.DATE,
       get: function() { 

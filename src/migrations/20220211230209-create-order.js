@@ -9,7 +9,6 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       estimated_time: {
-        allowNull: false,
         type: Sequelize.DATE
       },
       status: {
@@ -18,23 +17,18 @@ module.exports = {
       },
       //TODO: add geo localisation delivery boy and client
       paiement_methode: {
-        allowNull: false,
         type: Sequelize.ENUM("Cash_on_delivery" , "Bankily", "Masrvi", "Stripe"),
       },
       order_amount : {
-        allowNull: false,
         type: Sequelize.DOUBLE
       },
       delivery_fee : {
-        allowNull: false,
         type: Sequelize.DOUBLE
       },
       amount_total : {
-        allowNull: false,
         type: Sequelize.DOUBLE
       },
       restaurant_id: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
@@ -44,7 +38,6 @@ module.exports = {
         },
       },
       delivery_boy_id: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
@@ -54,7 +47,6 @@ module.exports = {
         },
       },
       client_id: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
@@ -64,7 +56,6 @@ module.exports = {
         },
       },
       manager_id: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {

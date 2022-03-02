@@ -2,6 +2,8 @@ const express = require("express");
 const { checkAdmin } = require("../middlewares");
 const router = express.Router();
 const  { adminControllers } = require("../controllores/index")
+const  staffController = require("../controllores/staff/order")
+
 const multer = require('multer');
 
 
@@ -282,6 +284,15 @@ router.delete(
     [checkAdmin.checkAdmin],
     adminControllers.extraCategoryController.deleteExtraCategory
 );
+
+
+
+
+router.get(
+    '/orders',
+    staffController.getOrdersByRestaurant
+);
+
 
 
 

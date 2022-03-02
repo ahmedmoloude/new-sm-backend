@@ -9,11 +9,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       qte: {
-        allowNull: false,
         type: Sequelize.INTEGER
       },
       order_id: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
@@ -23,7 +21,6 @@ module.exports = {
         },
       },
       product_extra_id: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
@@ -33,7 +30,6 @@ module.exports = {
         },
       },
       order_line_id: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {

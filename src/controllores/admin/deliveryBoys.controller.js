@@ -77,7 +77,7 @@ const getDeliveryBoys = async (req,res) => {
     const deliveryBoys = await paginate(DeliveryBoy, include,  page, limit, search, order );
 
     return res.status(200).send({
-        data: deliveryBoys
+         deliveryBoys
     })
     } catch (error) {
     console.log('Failed to fetch deliveryBoys', error);

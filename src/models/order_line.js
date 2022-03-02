@@ -16,7 +16,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Order_line.init({
-    qte: DataTypes.STRING,
+    qte: DataTypes.INTEGER,
+    order_id : DataTypes.INTEGER,
+    product_id : DataTypes.INTEGER,
     createdAt: {
       type: DataTypes.DATE,
       get: function() { 

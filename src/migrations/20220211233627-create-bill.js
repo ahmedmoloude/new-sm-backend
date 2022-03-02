@@ -9,15 +9,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       reference: {
-        allowNull: false,
         type: Sequelize.STRING
       },
       bill: {
-        allowNull: false,
         type: Sequelize.STRING
       },
       order_id: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
