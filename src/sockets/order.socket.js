@@ -1,14 +1,13 @@
 
 
 const Order = require('../models/index').Order;
+ const socketOrder = (io) => {
 
-export const socketOrderDelivery = (io) => {
-
-    const nameSpaceOrders = io.of('/orders-delivery-socket');
+    const nameSpaceOrders = io.of('/order-socket');
 
     nameSpaceOrders.on('connection', socket => {
-        order.status = data.status
-        order.save()
+        // order.status = data.status
+        // order.save()
 
         // join on connection ?
         console.log('USER CONECTED');
@@ -35,7 +34,7 @@ export const socketOrderDelivery = (io) => {
 
 
         // manager will start here
-        socket.on('join_order', (data) => {
+        socket.on('manager_join_order', (data) => {
             socket.join(`order/${data.order_id}`);
 
             Order.findOne({
@@ -43,7 +42,7 @@ export const socketOrderDelivery = (io) => {
                   id : data.order_id
                 }
             }).then(order => {
-                   nameSpaceOrders.emit(`order/${data.idOrder}`, order);
+                   nameSpaceOrders.emit(`order/${data.order_id}`, order);
             }).catch(err => {
                 console.log("get One order" , err);
                 return res.status(500).send({ message: err.message });
@@ -57,3 +56,8 @@ export const socketOrderDelivery = (io) => {
     });
 
 } 
+
+
+module.exports = {
+    socketOrder
+}

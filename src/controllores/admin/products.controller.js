@@ -121,9 +121,9 @@ const linkProductWithrestaurant = async (req,res) => {
   
       const products = await paginate(Product, include,  page, limit, search, order ,exclude);
 
-      return res.status(200).send({
+      return res.status(200).send(
           products
-      })
+      )
     } catch (error) {
       console.log('Failed to fetch products', error);
       return res.status(500).send({

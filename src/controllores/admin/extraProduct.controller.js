@@ -122,9 +122,9 @@ const linkProductWithExtraproduct = async (req,res) => {
   
       const extra_products = await paginate(Extra_product, include,  page, limit, search, order ,exclude);
 
-      return res.status(200).send({
+      return res.status(200).send(
           extra_products
-      })
+      )
     } catch (error) {
       console.log('Failed to fetch extra_products', error);
       return res.status(500).send({

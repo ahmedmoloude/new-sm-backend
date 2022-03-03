@@ -90,9 +90,9 @@ const getClients =  async (req,res) => {
 
     const clients = await paginate(Client, include,  page, limit, search, order , exclude);
 
-    return res.status(200).send({
+    return res.status(200).send(
         clients
-    })
+    )
     } catch (error) {
     console.log('Failed to fetch clients', error);
     return res.status(500).send({

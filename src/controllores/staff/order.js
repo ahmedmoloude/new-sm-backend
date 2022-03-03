@@ -28,9 +28,9 @@ const getOrdersByRestaurant = async (req,res) => {
     
         const orders = await paginate(Order, include,  page, limit, search, order ,exclude);
   
-        return res.status(200).send({
+        return res.status(200).send(
             orders
-        })
+        )
       } catch (error) {
         console.log('Failed to fetch orders', error);
         return res.status(500).send({

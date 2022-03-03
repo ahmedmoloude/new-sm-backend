@@ -32,9 +32,9 @@ const getCategories = async (req,res) => {
   
       const categories = await paginate(Category, include,  page, limit, search, order , exclude);
 
-      return res.status(200).send({
+      return res.status(200).send(
           categories
-      })
+      )
     } catch (error) {
       console.log('Failed to fetch categories', error);
       return res.status(500).send({

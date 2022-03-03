@@ -4,13 +4,13 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const http = require('http');
 const Server = require('socket.io').Server
-
+const { socketOrder } = require('./src/sockets/order.socket')
 const app = express()
 
 
 const httpServer = http.createServer(app);
 const io = new Server(httpServer);
-
+socketOrder(io);
 
 app.use(bodyParser.urlencoded({extended: true}));
 

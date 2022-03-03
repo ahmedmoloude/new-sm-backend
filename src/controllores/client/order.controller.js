@@ -15,9 +15,6 @@ const createOrder = async (req, res) => {
     const { data  , client_id = 1, restaurant_id = 1  , paiement_methode = "Cash_on_delivery" , order_amount = 200 , delivery_fee =10 } = req.body;
 
 
-
-
-
     Order.create({
         client_id: client_id,
         restaurant_id: restaurant_id,
@@ -61,7 +58,6 @@ const createOrder = async (req, res) => {
               return res.status(500).send({ message: error.message });
             }
         });
-
       }).catch(err => {
          console.log("get order" , err);
         return res.status(500).send({ message: err.message });

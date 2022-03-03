@@ -79,9 +79,9 @@ const createRestaurant = async (req, res) => {
   
       const restaurants = await paginate(Restaurant, include,  page, limit, search, order ,exclude);
 
-      return res.status(200).send({
+      return res.status(200).send(
           restaurants
-      })
+      )
     } catch (error) {
       console.log('Failed to fetch restaurants', error);
       return res.status(500).send({
