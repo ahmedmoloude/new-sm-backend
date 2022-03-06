@@ -164,7 +164,7 @@ const loginStaff = async (req, res) => {
 
 
 const loginDeliveryBoy = async (req, res) => {
-     console.log(req.body);
+      console.log(req.body);
         const { password , phone_number } = req.body;
           
       DeliveryBoy.findOne({
@@ -190,14 +190,13 @@ const loginDeliveryBoy = async (req, res) => {
           });
         }
 
-        const token = jwt.sign({id: user.id},secret, {
+        const token = jwt.sign({id: deliveryBoy.id},secret, {
           expiresIn: '365d'});
 
         return res.status(200).send({
           id: deliveryBoy.id,
           username: deliveryBoy.user_name,
           email: deliveryBoy.email,
-          role: deliveryBoy.role,
           accessToken: token
         });
 
