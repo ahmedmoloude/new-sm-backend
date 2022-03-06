@@ -2,7 +2,8 @@
 const Restaurant = require('../../models/index').Restaurant;
 const Product = require('../../models/index').Product;
 const paginate = require("../../utils/pagination");
-
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 
 

@@ -4,7 +4,8 @@ const secret = require('../../config/jwtConfig');
 const bcrypt = require("bcryptjs");
 const DeliveryBoy = require('../../models/index').DeliveryBoy;
 const paginate = require("../../utils/pagination");
-
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 
 

@@ -17,18 +17,21 @@ const Order = require('../models/index').Order;
         // });
 
 
-        socket.on('change_order_staus', (data) => {
+        socket.on('change_order_status', (data) => {
             Order.findOne({
                 where : {
                   id : data.order_id
                 }
             }).then(order => {
+                   if (data.status === "processing") {
+                    order.estimated_time = data.estimated_time
+                   }
                    order.status = data.status
                    order.save()
-                   nameSpaceOrders.emit(`order/${data.order_id}`, order);
+                   return nameSpaceOrders.emit(`order/${data.order_id}`, order);
             }).catch(err => {
                 console.log("get One order" , err);
-                return res.status(500).send({ message: err.message });
+                return  {error: err};
             });
         });
 
@@ -42,10 +45,10 @@ const Order = require('../models/index').Order;
                   id : data.order_id
                 }
             }).then(order => {
-                   nameSpaceOrders.emit(`order/${data.order_id}`, order);
+                  return nameSpaceOrders.emit(`order`, order);
             }).catch(err => {
                 console.log("get One order" , err);
-                return res.status(500).send({ message: err.message });
+                return  {error: err};
             });
         });
 

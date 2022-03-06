@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     manager_id : DataTypes.INTEGER,
     status: {
       type:   DataTypes.ENUM,
-      values: ["created" , "processing", "picked_up", "delivred" , "canceled"]
+      values: ["created" , "processing", "ready_to_be_picked" , "picked_up", "delivred" , "canceled"]
     },
     paiement_methode: {
       type:   DataTypes.ENUM,

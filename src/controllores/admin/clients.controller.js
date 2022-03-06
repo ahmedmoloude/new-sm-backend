@@ -2,7 +2,8 @@
 
 const Client = require('../../models/index').Client;
 const paginate = require("../../utils/pagination");
-
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
  
 
 

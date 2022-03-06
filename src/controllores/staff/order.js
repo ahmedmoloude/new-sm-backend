@@ -2,6 +2,8 @@
 
 const Order = require('../../models/index').Order;
 const paginate = require("../../utils/pagination");
+const FCM = require('fcm-node')
+const serverKey = require('../../../privatekey.json') 
 
 
 const getOrdersByRestaurant = async (req,res) => {
@@ -37,6 +39,46 @@ const getOrdersByRestaurant = async (req,res) => {
             message: 'Failed to fetch orders'
         })
       } 
+}
+
+
+const notifDeliveryBoy = async (req,res) => {
+
+    const { id } = req.body;
+
+    DeliveryBoy.findOne({
+      where: {
+        id: id
+        },
+    }).then(deliveryBoy => {
+      if (!deliveryBoy) {
+        return  res.status(404).send({msg : "delivery boy not found"});
+      }
+
+         const fcm = new FCM(serverKey)
+
+        const message = { 
+            to: deliveryBoy.fcm_token,         
+            notification: {
+                title: 'new Order', 
+                body: 'a new order for you' 
+            },
+        }
+        
+        fcm.send(message, function(err, response){
+            if (err) {
+                console.log("Something has gone wrong!")
+            } else {
+                console.log("Successfully sent with response: ", response)
+            }
+        })
+    }) .catch(err => {
+      console.log("get DeliveryBoys" , err);
+     return  res.status(500).send({ message: err.message });
+    });
+    
+    
+    
 }
 
 

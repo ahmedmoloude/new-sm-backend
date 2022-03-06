@@ -1,6 +1,7 @@
 const Category = require('../../models/index').Category;
 const paginate = require("../../utils/pagination");
-
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 
 const getCategories = async (req,res) => {
