@@ -15,7 +15,12 @@ module.exports = {
         type: Sequelize.ENUM("created" , "processing", "ready_to_be_picked"  , "picked_up", "delivred" , "canceled"),
         defaultValue: "created"
       },
-      //TODO: add geo localisation delivery boy and client
+      client_position: {
+        type: Sequelize.GEOMETRY('POINT')
+      },
+      delievry_boy_position: {
+        type: Sequelize.GEOMETRY('POINT')
+      },
       paiement_methode: {
         type: Sequelize.ENUM("Cash_on_delivery" , "Bankily", "Masrvi", "Stripe"),
       },

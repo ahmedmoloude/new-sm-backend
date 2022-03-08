@@ -165,7 +165,7 @@ const loginStaff = async (req, res) => {
 
 const loginDeliveryBoy = async (req, res) => {
       console.log(req.body);
-        const { password , phone_number } = req.body;
+        const { password , phone_number , fcm_token } = req.body;
           
       DeliveryBoy.findOne({
         where: {
@@ -193,6 +193,8 @@ const loginDeliveryBoy = async (req, res) => {
         const token = jwt.sign({id: deliveryBoy.id},secret, {
           expiresIn: '365d'});
 
+        deliveryBoy.fcm_token = fcm_token
+        deliveryBoy.save()
         return res.status(200).send({
           id: deliveryBoy.id,
           username: deliveryBoy.user_name,
