@@ -8,6 +8,12 @@ const { socketOrder } = require('./src/sockets/order.socket')
 const app = express()
 
 
+const httpServer = http.createServer(app);
+const io = new Server(httpServer , {  cors: {
+    origin : "http://127.0.0.1:3000"
+}});
+socketOrder(io);
+
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(cors())
@@ -20,10 +26,6 @@ app.use(express.json());
 app.use('/api', routes);
 
 
-
-const httpServer = http.createServer(app);
-const io = new Server(httpServer);
-socketOrder(io);
 
 const port  = process.env.PORT || 3000
 app.get('*', function(req, res){
