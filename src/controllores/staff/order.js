@@ -2,6 +2,8 @@ const Order = require('../../models/index').Order;
 const paginate = require("../../utils/pagination");
 const FCM = require('fcm-node')
 const serverKey = require('../../../privatekey.json') 
+const DeliveryBoy = require('../../models/index').DeliveryBoy;
+const fcm = new FCM(serverKey)
 
 
 const getOrdersByRestaurant = async (req,res) => {
@@ -53,21 +55,38 @@ const notifDeliveryBoy = async (req,res) => {
         return  res.status(404).send({msg : "delivery boy not found"});
       }
 
-         const fcm = new FCM(serverKey)
 
         const message = { 
             to: deliveryBoy.fcm_token,         
             notification: {
-                title: 'new Order', 
-                body: 'a new order for you' 
+                title: 'nouvelle commande', 
+                body: 'Une nouvelle commande pour vous cliquez pour voir les détails',
+                
             },
+            data: {
+                restaurant_name : "tvz resto",
+                total_price : "4000.0",
+                phone_number : "46898921",
+                prdoucts : JSON.stringify([
+                    {
+                        name : 'pizza',
+                        qte : "4"  
+                    },
+                    {
+                        name : 'hambergeur',
+                        qte : "2"  
+                    }
+                ])
+            }
         }
         
         fcm.send(message, function(err, response){
             if (err) {
-                console.log("Something has gone wrong!")
+                console.log(err);
+                return  res.status(400).send({msg : "Something has gone wrong"});
+
             } else {
-                console.log("Successfully sent with response: ", response)
+                return  res.status(201).send({msg : "notication sent successfully"});
             }
         })
     }) .catch(err => {
@@ -75,11 +94,9 @@ const notifDeliveryBoy = async (req,res) => {
      return  res.status(500).send({ message: err.message });
     });
     
-    
-    
 }
 
-
 module.exports = {
-    getOrdersByRestaurant
+    getOrdersByRestaurant,
+    notifDeliveryBoy
 }

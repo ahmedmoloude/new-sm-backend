@@ -294,6 +294,12 @@ router.get(
 );
 
 
+router.post(
+    '/notif_delivery_boy',
+    staffController.notifDeliveryBoy
+);
+
+
 
 
 module.exports = router;

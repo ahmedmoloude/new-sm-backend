@@ -23,12 +23,14 @@ const Order = require('../models/index').Order;
                   id : data.order_id
                 }
             }).then(order => {
-                   if (data.status === "processing") {
+
+                   // To do : validation 
+                   if (data.status === "Processing") {
                     order.estimated_time = data.estimated_time
                    }
                    order.status = data.status
                    order.save()
-                   return nameSpaceOrders.emit(`order/${data.order_id}`, order);
+                   return nameSpaceOrders.emit(`order_status_changed`, order);
             }).catch(err => {
                 console.log("get One order" , err);
                 return  {error: err};
@@ -45,7 +47,8 @@ const Order = require('../models/index').Order;
                   id : data.order_id
                 }
             }).then(order => {
-                  return nameSpaceOrders.emit(`order`, order);
+                // To do : order informations , client , deliveryBoy
+                  return nameSpaceOrders.emit(`order_joined_by_manager`, order);
             }).catch(err => {
                 console.log("get One order" , err);
                 return  {error: err};

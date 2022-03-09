@@ -25,6 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     delivery_boy_id : DataTypes.INTEGER,
     client_id : DataTypes.INTEGER,
     manager_id : DataTypes.INTEGER,
+    client_position : DataTypes.GEOMETRY('POINT'),
+    delievry_boy_position : DataTypes.GEOMETRY('POINT'),
     status: {
       type:   DataTypes.ENUM,
       values: ["created" , "processing", "ready_to_be_picked" , "picked_up", "delivred" , "canceled"]
