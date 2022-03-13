@@ -78,7 +78,7 @@ router.post(
 
 router.get(
     '/admin/deliveryBoys',
-    [checkAdmin.checkAdmin],
+    // [checkAdmin.checkAdmin],
     adminControllers.deliveryBoyController.getDeliveryBoys
 );
 

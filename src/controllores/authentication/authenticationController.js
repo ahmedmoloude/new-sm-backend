@@ -6,6 +6,7 @@ const Client = require('../../models/index').Client;
 const Staff = require('../../models/index').Staff;
 const DeliveryBoy = require('../../models/index').DeliveryBoy;
 
+const Restaurant = require('../../models/index').Restaurant;
 
 const secret = require('../../config/jwtConfig');
 
@@ -123,7 +124,10 @@ const loginStaff = async (req, res) => {
       Staff.findOne({
         where: {
           phone_number: phone_number
-        }
+        },
+        include: [{
+          model: Restaurant , as: "restaurant"
+        }],
       })
       .then(user => {
         
@@ -149,10 +153,7 @@ const loginStaff = async (req, res) => {
           expiresIn: '365d'});
 
         res.status(200).send({
-          id: user.id,
-          username: user.user_name,
-          email: user.email,
-          role: user.role,
+          user,
           accessToken: token
         });
 

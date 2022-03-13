@@ -13,7 +13,20 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Order.belongsTo(models.Client, {
+        foreignKey: 'client_id',
+        as: 'client',
+      });
+
+      Order.belongsTo(models.DeliveryBoy, {
+        foreignKey: 'delivery_boy_id',
+        as: 'delivery_boy',
+      });
+      Order.hasMany(models.Order_line, {
+        sourceKey : 'id',
+        foreignKey: 'order_id',
+        as: 'order_line',
+      });
     }
   }
   Order.init({
@@ -29,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     delievry_boy_position : DataTypes.GEOMETRY('POINT'),
     status: {
       type:   DataTypes.ENUM,
-      values: ["created" , "processing", "ready_to_be_picked" , "picked_up", "delivred" , "canceled"]
+      values: ["created" , "processing" , "picked_up", "delivred" , "canceled" , "ready_to_be_picked"]
     },
     paiement_methode: {
       type:   DataTypes.ENUM,

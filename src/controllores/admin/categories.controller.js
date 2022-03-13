@@ -1,6 +1,7 @@
 const Category = require('../../models/index').Category;
 const paginate = require("../../utils/pagination");
 const Sequelize = require("sequelize");
+const Extra_product = require('../../models/index').Extra_product;
 const Op = Sequelize.Op;
 
 
@@ -118,7 +119,16 @@ const getCategories = async (req,res) => {
   
   
   
-
+const getCategoriesClient = async (req, res) => {
+  Category.findAll({
+    order:  [['createdAt', 'DESC']]
+  }).then(categories => {
+    return res.status(200).send(categories);
+  }) .catch(err => {
+   console.log("get categories" , err);
+   return  res.status(500).send({ message: err.message });
+  });
+}
 
   module.exports = {
 
@@ -126,5 +136,6 @@ const getCategories = async (req,res) => {
     createCategory,
     getoneCategory,
     deleteCategory,
+    getCategoriesClient
    
 }

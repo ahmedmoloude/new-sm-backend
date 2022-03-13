@@ -170,20 +170,20 @@ const userBytoken = async (req,res) => {
       Staff.findOne({
           where: {
           id:  decoded.id
-          }
-      }).then(staff => {
+          },
+          include: [{
+            model: Restaurant , as: "restaurant"
+          }],
+      }).then(user => {
   
-        if (!staff) {
+        if (!user) {
          return res.status(401).send({
             message: "user not found!",
         });
         }
   
         return res.status(200).send({
-          id: staff.id,
-          username: staff.user_name,
-          email: staff.email,
-          role: staff.role,
+          user
         });
       }).catch(err => {
         console.log("get user by token" , err);

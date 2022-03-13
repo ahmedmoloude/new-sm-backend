@@ -8,7 +8,7 @@ const   orderController = require("../controllores/client/order.controller")
 
 
 router.get('/products' ,
-   adminController.productController.getProducts
+   adminController.productController.getProductsClient
 )
 
 router.post('/order' ,
@@ -16,7 +16,7 @@ router.post('/order' ,
 )
 
 router.get('/categories' ,
-   adminController.categoriesController.getCategories
+   adminController.categoriesController.getCategoriesClient
 )
 
 

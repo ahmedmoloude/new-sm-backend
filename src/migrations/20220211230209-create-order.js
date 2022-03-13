@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       status: {
-        type: Sequelize.ENUM("created" , "processing", "ready_to_be_picked"  , "picked_up", "delivred" , "canceled"),
+        type: Sequelize.ENUM("created" , "processing", "picked_up", "delivred" , "canceled" , "ready_to_be_picked"),
         defaultValue: "created"
       },
       client_position: {

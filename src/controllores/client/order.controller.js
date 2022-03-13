@@ -12,9 +12,10 @@ const Order_line_extra = require('../../models/index').Order_line_extra;
 
 const createOrder = async (req, res) => {
 
-    const { data  , client_id = 1, restaurant_id = 1  , paiement_methode = "Cash_on_delivery" , order_amount = 200 , delivery_fee =10  , } = req.body;
+    const { data  , client_id, restaurant_id = 1  , paiement_methode , order_amount , delivery_fee =0 , position } = req.body;
 
 
+    console.log(position , "position" );
     Order.create({
         client_id: client_id,
         restaurant_id: restaurant_id,
@@ -25,6 +26,7 @@ const createOrder = async (req, res) => {
         client_position : { type: 'Point', coordinates: [39.807222,-76.984722]}
 
       }).then(order => {
+        console.log(order , "order created " );
 
         // let amount_total = 0
         // let product_price = 200
@@ -48,12 +50,7 @@ const createOrder = async (req, res) => {
                 let order_line_extra = await  Order_line_extra.bulkCreate(element.extra_products)
 
                 if (idx === array.length - 1){ 
-
-
-                //   order.hashed_password = bcrypt.hashSync(new_password, 8)
-
-                // dliveryBoy.save()
-                   return res.status(200).send({ message: "created"});
+                   return res.status(200).send({ message: "created" , order_id : order.id });
                 }
             } catch (error) {
               console.log("get Order_line" , error);

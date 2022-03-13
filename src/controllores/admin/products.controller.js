@@ -139,8 +139,10 @@ const linkProductWithrestaurant = async (req,res) => {
   
     Product.findAll({
       where: { category_id : category_id}, 
-      include: [{
-        model: Category , as: "Category",
+      include :[{
+        model: Category , as: "Category" } , {
+          model: Extra_product,
+          as: 'extra_products'
       }],
       order:  [['createdAt', 'DESC']]
     }).then(products => {
@@ -194,6 +196,22 @@ const linkProductWithrestaurant = async (req,res) => {
   
 
 
+  const getProductsClient = async (req, res) => {
+    Product.findAll({
+      include :[{
+        model: Category , as: "Category" } , {
+          model: Extra_product,
+          as: 'extra_products'
+      }],
+      order:  [['createdAt', 'DESC']]
+    }).then(products => {
+      return res.status(200).send(products);
+    }) .catch(err => {
+     console.log("get products" , err);
+     return  res.status(500).send({ message: err.message });
+    });
+  }
+
   module.exports = {
     getProducts,
     getOneProduct,
@@ -201,4 +219,5 @@ const linkProductWithrestaurant = async (req,res) => {
     deleteProduct,
     linkProductWithrestaurant,
     getProductsByCategory,
+    getProductsClient
 }
