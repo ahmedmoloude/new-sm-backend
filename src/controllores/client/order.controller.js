@@ -23,10 +23,9 @@ const createOrder = async (req, res) => {
         order_amount: order_amount,
         delivery_fee: delivery_fee,
         amount_total : order_amount + delivery_fee,
-        client_position : { type: 'Point', coordinates: [39.807222,-76.984722]}
+        client_position : { type: 'Point', coordinates: [position.longitude,position.latitude]}
 
       }).then(order => {
-        console.log(order , "order created " );
 
         // let amount_total = 0
         // let product_price = 200

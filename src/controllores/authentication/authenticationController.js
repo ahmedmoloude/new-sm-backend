@@ -108,7 +108,7 @@ const loginClient = async (req, res) => {
         expiresIn: '365d'      });
 
       res.status(200).send({
-        client: user.getInformation(),
+        client: user,
         accessToken: token
       });
 

@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'order_id',
         as: 'order_line',
       });
+
+      Order.belongsTo(models.Restaurant, {
+        foreignKey: 'restaurant_id',
+        as: 'Restaurant',
+      });
     }
   }
   Order.init({
@@ -48,6 +53,7 @@ module.exports = (sequelize, DataTypes) => {
       type:   DataTypes.ENUM,
       values: ["Cash_on_delivery" , "Bankily", "Masrvi", "Stripe"]
     },
+    potentail_delivery_boys : DataTypes.ARRAY(DataTypes.INTEGER) ,
     createdAt: {
       type: DataTypes.DATE,
       get: function() { 

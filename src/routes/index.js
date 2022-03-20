@@ -4,9 +4,10 @@ const authRouter = require("./authenticationRouter")
 const adminRouter = require("./adminRouter")
 const upadtepasswordRouter = require("./upadtepasswordRouter")
 const clientRouter = require("./clientRouter")
+const deliveryBoyRouter = require("./deliveryBoy.router")
+
 
 const path = require("path");
-const fs = require('fs');
 const router = express.Router();
 
 
@@ -15,6 +16,8 @@ router.use("/auth" , authRouter)
 router.use("/bo" , adminRouter)
 router.use("/passwordUpdate" , upadtepasswordRouter)
 router.use("/client" , clientRouter)
+router.use("/" , deliveryBoyRouter)
+
 
 
 
