@@ -18,7 +18,8 @@ const socketOrder =  (io) => {
 
 
         socket.on('position', (data) => {
-
+            console.log("here------------");
+            console.log(data);
 
             nameSpaceOrders.emit(`position`, { latitude: data.latitude, longitude: data.longitude });
             
@@ -172,35 +173,29 @@ const socketOrder =  (io) => {
                 where : {
                   id : data.order_id
                 },
+                include : [
+                    {
+                    model: Client , as: "client" 
+                    },
+                    {
+                      model: DeliveryBoy,
+                      as: 'delivery_boy'
+                    },
+                    {
+                        model: Order_line, as: 'order_line',
+                        include: [{
+                          model: Product,
+                          as: 'Product',
+                        }],
+                      }
+                ]
             }).then(async order => {
 
-                  order.status = "picked_up"
-                  order.delivery_boy_id = data.deliveryBoy_id
-                  await order.save()
-
-
-                Order.findOne({
-                    where : {
-                      id : data.order_id
-                    },
-                    include : [
-                        {
-                        model: Client , as: "client" 
-                        },
-                        {
-                          model: DeliveryBoy,
-                          as: 'delivery_boy'
-                        },
-                        {
-                            model: Order_line, as: 'order_line'
-                        }
-                    ]
-                }).then(order => {
-                    return nameSpaceOrders.emit(`order_status_changed`, order);
-                }).catch(err => {
-                    console.log("get One order" , err);
-                    return  {error: err};
-                });
+                //   order.status = "picked_up"
+                //   order.delivery_boy_id = data.deliveryBoy_id
+                //   await order.save()
+    
+                return nameSpaceOrders.emit(`order_status_changed`, order);
 
                  
             }).catch(err => {

@@ -59,6 +59,7 @@ const acceptOrderDeliveryBoy  = async (req,res) => {
           id : order_id
         }
       }).then(async order => {
+        console.log("order");
         if (order) {
             if (order.delivery_boy_id == null) {
 
@@ -73,7 +74,6 @@ const acceptOrderDeliveryBoy  = async (req,res) => {
             }
             else {
               return res.status(400).send({ message: "order already taken" });
-
             }
         } 
       }) .catch(err => {
