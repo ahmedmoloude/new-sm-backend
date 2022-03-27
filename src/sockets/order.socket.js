@@ -21,7 +21,7 @@ const socketOrder =  (io) => {
             console.log("here------------");
             console.log(data);
 
-            nameSpaceOrders.emit(`position`, { latitude: data.latitude, longitude: data.longitude });
+            nameSpaceOrders.emit(`position`, { latitude: data.latitude, longitude: data.longitude  , heading : data.heading});
             
         });
 

@@ -1,0 +1,19 @@
+version: "3.3"
+services:
+  db_2:
+    image: postgis/postgis:13-master
+    container_name: postgressql_postgis2
+    restart: always
+    ports:
+      - "54321:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "5151:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@test.com
+      PGADMIN_DEFAULT_PASSWORD: admin
