@@ -1,11 +1,17 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "admiNn1234",
-    "database": "postgres",
-    "host": "localhost",
-    "port": 54321,
-    "dialect": "postgres"
+    "username": "movdwanjcynfbl",
+    "password": "76746fe1f0494a94ac00c909d41593acd2cddfd6f84aa9ae47631c3efe87b00a",
+    "database": "d90c7c6gp8vor5",
+    "host": "ec2-52-209-111-18.eu-west-1.compute.amazonaws.com",
+    "port": 5432,
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   },
   "test": {
     "username": "root",

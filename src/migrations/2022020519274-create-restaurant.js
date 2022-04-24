@@ -18,8 +18,7 @@ module.exports = {
         allowNull: false
       },
       localisation: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: Sequelize.GEOMETRY('POINT')
       },
       region: {
         type: Sequelize.STRING,

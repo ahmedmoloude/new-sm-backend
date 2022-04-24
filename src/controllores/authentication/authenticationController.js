@@ -20,22 +20,22 @@ const registerClient = async (req , res) => {
         hashed_password: bcrypt.hashSync(password, 8),
         fcm_token : ""
       })
-        .then(client => {
-          const token = jwt.sign({ id: client.id }, secret, {
-             expiresIn: '365d'
-          });    
-          res.status(201).send({ client: client.getInformation() , token : token });
-        })
-        .catch(err => {
-          res.status(500).send({ message: err.message });
-        });
+      .then(client => {
+        const token = jwt.sign({ id: client.id }, secret, {
+            expiresIn: '365d'
+        });    
+        res.status(201).send({ client: client.getInformation() , token : token });
+      })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });
 }
 
 
 const registerClientThirdParty = async (req , res) => {
   console.log(req.body);
 
- const { email, password , user_name , phone_number , external_auth_id} = req.body;
+   const { email, password , user_name , phone_number , external_auth_id} = req.body;
 
     Client.findOne({
       where: {

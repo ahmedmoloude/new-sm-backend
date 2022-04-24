@@ -12,9 +12,9 @@ const Order_line_extra = require('../../models/index').Order_line_extra;
 
 const createOrder = async (req, res) => {
 
-    const { data  , client_id, restaurant_id = 1  , paiement_methode , order_amount , delivery_fee =0 , position } = req.body;
+    const { data  , client_id = 1, restaurant_id = 1  , paiement_methode = "Cash_on_delivery" , order_amount = 200.0 , delivery_fee =0 , position = {longitude : 12.0 , latitude : 11} } = req.body;
 
-
+     
     console.log(position , "position" );
     Order.create({
         client_id: client_id,

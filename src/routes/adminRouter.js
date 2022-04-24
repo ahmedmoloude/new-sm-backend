@@ -3,6 +3,7 @@ const { checkAdmin } = require("../middlewares");
 const router = express.Router();
 const  { adminControllers } = require("../controllores/index")
 const  staffController = require("../controllores/staff/order")
+const productController = require("../controllores/product/products.controller")
 
 const multer = require('multer');
 
@@ -141,37 +142,37 @@ router.get(
 router.get(
     '/admin/products',
     [checkAdmin.checkAdmin],
-    adminControllers.productController.getProducts
+    productController.getProducts
 );
 
 
 router.get(
     '/admin/products_bu_category',
     [checkAdmin.checkAdmin],
-    adminControllers.productController.getProductsByCategory
+    productController.getProductsByCategory
 );
 router.get(
     '/admin/product',
     [checkAdmin.checkAdmin],
-    adminControllers.productController.getOneProduct
+    productController.getOneProduct
 );
 
 router.post(
     '/admin/product',
     [checkAdmin.checkAdmin , upload.single('productImage')],
-    adminControllers.productController.createProduct
+    productController.createProduct
 );
 
 router.post(
     '/admin/product_restaurant',
     [checkAdmin.checkAdmin],
-    adminControllers.productController.linkProductWithrestaurant
+    productController.linkProductWithrestaurant
 );
 
 router.delete(
     '/admin/product',
     [checkAdmin.checkAdmin],
-    adminControllers.productController.deleteProduct
+    productController.deleteProduct
 );
 
 // ************* Category ************* 
@@ -252,7 +253,7 @@ router.post(
 router.delete(
     '/admin/product',
     [checkAdmin.checkAdmin],
-    adminControllers.productController.deleteProduct
+    productController.deleteProduct
 );
 
 

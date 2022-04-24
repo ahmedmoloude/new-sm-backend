@@ -3,12 +3,13 @@ const { checkAdmin } = require("../middlewares");
 const router = express.Router();
 const   adminController = require("../controllores/admin")
 const   orderController = require("../controllores/client/order.controller")
+const productController = require("../controllores/product/products.controller")
 
 
 
 
 router.get('/products' ,
-   adminController.productController.getProductsClient
+   productController.getProductsClient
 )
 
 router.post('/order' ,
@@ -21,7 +22,7 @@ router.get('/categories' ,
 
 
 router.get('/products_by_category' ,
-   adminController.productController.getProductsByCategory
+   productController.getProductsByCategory
 )
 
 module.exports = router

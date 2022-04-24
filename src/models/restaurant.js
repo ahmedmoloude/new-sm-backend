@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
   Restaurant.init({
     name: DataTypes.STRING,
     phone_number : DataTypes.INTEGER,
-    localisation: DataTypes.STRING,
+    localisation: DataTypes.GEOMETRY('POINT'),
     region: DataTypes.STRING,
     statut :  DataTypes.BOOLEAN,
     createdAt: {

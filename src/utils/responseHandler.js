@@ -7,7 +7,7 @@ const responseHandler =  (msg, data , statusCode , code) => {
         code : code
       });
     };
-  };
+};
 
 
 module.exports = responseHandler;

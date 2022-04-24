@@ -197,19 +197,51 @@ const linkProductWithrestaurant = async (req,res) => {
 
 
   const getProductsClient = async (req, res) => {
-    Product.findAll({
-      include :[{
-        model: Category , as: "Category" } , {
-          model: Extra_product,
-          as: 'extra_products'
-      }],
-      order:  [['createdAt', 'DESC']]
-    }).then(products => {
-      return res.status(200).send(products);
+    let lat = req.query.lat 
+    let lng = req.query.lng 
+
+    
+
+    const location = Sequelize.literal(`ST_GeomFromText('POINT(${ lng } ${  lat })')`)
+    const distance = Sequelize.fn('ST_Distance_Sphere', Sequelize.col('localisation'), location)
+
+    Restaurant.findAll({
+          order: distance,
+          where: Sequelize.where(distance, { $lte: 10 }),
+      // attributes: attributes,
+        // include: [{
+        //   model: Product , as: "products" ,  attributes: {exclude:'Restaurant_inter_product' }
+        // }],
+    //   order: 'distance',
+    }).then(response => {
+      return res.status(200).send(response);
     }) .catch(err => {
-     console.log("get products" , err);
+     console.log("get Restaurant with Managers" , err);
      return  res.status(500).send({ message: err.message });
     });
+
+    // Location.findAll({
+    //   attributes: attributes,
+    //   order: 'distance',
+    //   where: sequelize.where(distance, 10000),
+    //   logging: console.log
+    // })
+    // .then(function(instance){
+    //   return res.json(200, instance);
+    // })
+    // Product.findAll({
+    //   include :[{
+    //     model: Category , as: "Category" } , {
+    //       model: Extra_product,
+    //       as: 'extra_products'
+    //   }],
+    //   order:  [['createdAt', 'DESC']]
+    // }).then(products => {
+    //   return res.status(200).send(products);
+    // }).catch(err => {
+    //  console.log("get products" , err);
+    //  return  res.status(500).send({ message: err.message });
+    // });
   }
 
   module.exports = {

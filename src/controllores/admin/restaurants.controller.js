@@ -9,12 +9,12 @@ const Op = Sequelize.Op;
 
 const createRestaurant = async (req, res) => {
     const {  region , name , phone_number , localisation} = req.body;
-  
+    console.log(localisation);
     Restaurant.create({
       name: name,
       region: region,
       phone_number: phone_number,
-      localisation : localisation
+      localisation : { type: 'Point', coordinates: [localisation.longitude,localisation.latitude]}
     }).then(restaurants => {
       return res.status(200).send(restaurants);
     }) .catch(err => {
