@@ -4,7 +4,8 @@ const router = express.Router();
 const  { adminControllers } = require("../controllores/index")
 const  staffController = require("../controllores/staff/order")
 const productController = require("../controllores/product/products.controller")
-
+const Adminschemas = require('../validators/admin.validation')
+const {  validatorMidellware } = require("../middlewares");
 const multer = require('multer');
 
 
@@ -73,12 +74,13 @@ router.delete(
 
 router.post(
     '/admin/deliveryBoy',
-    [checkAdmin.checkAdmin],
+    [checkAdmin.checkAdmin , validatorMidellware(Adminschemas.createDeliveryBoy)],
     adminControllers.deliveryBoyController.createDeliveryBoy
 );
 
 router.get(
     '/admin/deliveryBoys',
+    
     // [checkAdmin.checkAdmin],
     adminControllers.deliveryBoyController.getDeliveryBoys
 );
@@ -111,7 +113,7 @@ router.delete(
 
 router.post(
     '/admin/restaurant',
-    [checkAdmin.checkAdmin],
+    [checkAdmin.checkAdmin , validatorMidellware(Adminschemas.createRestaurant)],
     adminControllers.restaurantController.createRestaurant
 );
 
@@ -159,7 +161,7 @@ router.get(
 
 router.post(
     '/admin/product',
-    [checkAdmin.checkAdmin , upload.single('productImage')],
+    [checkAdmin.checkAdmin , upload.single('productImage') , validatorMidellware(Adminschemas.createProduct)],
     productController.createProduct
 );
 
@@ -192,7 +194,7 @@ router.get(
 
 router.post(
     '/admin/categorie',
-    [checkAdmin.checkAdmin],
+    [checkAdmin.checkAdmin , validatorMidellware(Adminschemas.createCategory)],
     adminControllers.categoriesController.createCategory
 );
 
